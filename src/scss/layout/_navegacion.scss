@@ -1,0 +1,32 @@
+.barra{
+    display: flex;//los pone en horizontal ---
+    flex-direction: column; //cambia la orientación a vertical |
+    padding-top: 3rem;
+    @include tablet{
+        flex-direction: row; //hace que se vea en horizontal en un dispositivo más grande
+        justify-content: space-between; //pone los elemtentps uno al izq y otro a la derecha
+    }
+}
+
+.navegacion{
+
+    @include tablet{
+        display: flex; //solo en dispositivos mas grande toma el flex para que los elementos de la navegación se vean en horizontal ---
+        align-items: center;
+    }
+    a{
+        color: $blanco;
+        text-decoration: none;
+        font-size: 2.2rem;
+        display: block; // en dispositivos más pequeños toman todo el espacio disponible y después se centran
+        text-align: center;
+
+        @include tablet{
+            margin-right: 2rem;
+
+            &:last-of-type{
+                margin-right: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.no-webp .imagen-contacto{ //se hace uso de modernizr
+    background-image: url(../img/encuentra.jpg);
+}
+
+.webp .imagen-contacto{ //se hace uso de modernizr
+    background-image: url(../img/encuentra.jpg);
+}
+
+.imagen-contacto{
+    background-position: center center;//centra la img vertical  y horizontalmente
+    background-size: cover;
+    padding: $separacion 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2{
+        color: $blanco;
+        font-size: 4rem;
+        font-weight: $black;
+    }
+    p{
+        font-size: 1.8rem;
+        color: $blanco;
+    }
+}

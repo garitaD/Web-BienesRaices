@@ -1,0 +1,14 @@
+.boton-amarillo-block{
+    @include boton($amarillo, block)//block toma todo el espacio disponible
+}
+.boton-amarillo{
+    @include boton($amarillo, inline-block)//block toma todo el espacio disponible
+}
+.boton-verde{
+    @include boton($verde, inline-block)//block toma todo el espacio disponible
+}
+
+.alinear-derecha{
+    display: flex;
+    justify-content: flex-end;
+}
