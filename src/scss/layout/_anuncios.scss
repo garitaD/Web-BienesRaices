@@ -22,14 +22,23 @@
     }
 }
 
+.iconos{
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    
+
+    //align-items: center;
+}
 .iconos-caracteristicas{
     display: flex;
     list-style: none;
     padding: 0;
 
     li{
-        flex: 1;//hace que tomen todo el espacio disponible en una proporción 1ue c/u recibe 1px de lo que hay disponible 
+       flex: 1;//hace que tomen todo el espacio disponible en una proporción 1ue c/u recibe 1px de lo que hay disponible 
         display: flex;
+        margin-right: 4rem;
         img{
             flex: 0 0 5rem;
             margin-right: 1rem;
@@ -37,6 +46,9 @@
 
         p{
             font-weight: $black;
+        }
+        &:last-of-type{
+            margin-right: 0;
         }
     }
 }

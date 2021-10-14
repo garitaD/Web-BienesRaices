@@ -1,0 +1,46 @@
+@include tablet{ //esto para que apartir de disp más grandres tome este estilo
+    .seccion-inferior{
+        display: grid; //no se usa el mixin ya que en este no se acomoda en una cantidad igual
+        grid-template-columns: 2fr 1fr;// dos columnas donde la primera va a ser de 2 fraciones y la segunda de 1
+        column-gap: 2rem; 
+    }
+}
+
+.entrada-blog{
+    margin-bottom: 2rem;
+    //queremos que la imagen y el texto se acomode en dos columnas en disp grandes
+    @include tablet{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        column-gap: 2rem;
+    }
+}
+
+.texto-entrada{
+    a{
+        color: $negro;
+        margin-top: 2rem;//los enlaces son de tipo INLINE por lo que no se les puede poner un margin a menos q   ue se cambie a display block
+        display: block;
+        @include tablet{ //un margin top 2rem está bien para un disp movil pero en disp más grande lo quitamos
+            margin-top: 0;
+        }
+    }
+    h4{
+        margin: 0;
+        //margin-top: 2rem; //todos los h y parrafos tienen un display block por lo que aquí sí sirve colocarlo
+        
+        line-height: 1.4;
+
+        &::after{ //para generar una barra abajo del titulo como un pseudoelemento
+            content:'';// todo pegado
+            display: block;//sin este display no será visible
+            width: 15rem;
+            height: .5rem;
+            background-color: $verde;
+            margin-top: 1rem
+        }
+    }
+    span{
+        color: $amarillo;
+    }
+}
