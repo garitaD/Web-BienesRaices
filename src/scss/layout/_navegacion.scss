@@ -1,6 +1,8 @@
 .barra{
     display: flex;//los pone en horizontal ---
+
     flex-direction: column; //cambia la orientación a vertical |
+    align-items: center;
     padding-top: 3rem;
     @include tablet{
         flex-direction: row; //hace que se vea en horizontal en un dispositivo más grande
@@ -9,10 +11,19 @@
 }
 
 .navegacion{
+    //con el uso de 'display' no se pueden hacer animaciones
+    //display: none;//hace que los elemntos de la navegacion no sean visibles a menos que se esté en una tablet o disp más grande
 
+                /*ANIMACIONES*/
+    //visibility es muy paracido a display, y este sí nos permite realizar animaciones
+    visibility: hidden;
+    opacity: 0;//en elementos en una forma de crear trasnpariencia 
+    transition: visibility .3s ease-in-out, opacity 0.5s;
     @include tablet{
         display: flex; //solo en dispositivos mas grande toma el flex para que los elementos de la navegación se vean en horizontal ---
         align-items: center;
+        opacity: 1;
+        visibility: visible;
     }
     a{
         color: $blanco;
@@ -29,4 +40,20 @@
             }
         }
     }
+}
+
+//MENU HAMBURGUESA
+.mobile-menu{
+    @include tablet{
+        display: none;//para que no se muestre en pantallas más grandes
+    }
+    img{
+        width: 5rem;
+        
+    }
+}
+
+.mostrar{
+    visibility: visible;//hace que sea vea(display block)
+    opacity: 1;
 }
