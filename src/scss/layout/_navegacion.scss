@@ -10,15 +10,20 @@
     }
 }
 
-.navegacion{
-    //con el uso de 'display' no se pueden hacer animaciones
-    //display: none;//hace que los elemntos de la navegacion no sean visibles a menos que se esté en una tablet o disp más grande
+.navegacion-header{
 
-                /*ANIMACIONES*/
+    /*ANIMACIONES*/
     //visibility es muy paracido a display, y este sí nos permite realizar animaciones
     visibility: hidden;
     opacity: 0;//en elementos en una forma de crear trasnpariencia 
     transition: visibility .3s ease-in-out, opacity 0.5s;
+}
+.navegacion{
+    //con el uso de 'display' no se pueden hacer animaciones
+    //display: none;//hace que los elemntos de la navegacion no sean visibles a menos que se esté en una tablet o disp más grande
+
+    
+                
     @include tablet{
         display: flex; //solo en dispositivos mas grande toma el flex para que los elementos de la navegación se vean en horizontal ---
         align-items: center;
