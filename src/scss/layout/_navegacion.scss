@@ -1,3 +1,27 @@
+.derecha{
+    display: flex;
+    flex-direction: column; //en disp mobiles va a tomar una posicion en vertical
+    align-items: center;
+    @include tablet{
+        align-items: flex-end;
+    }
+}
+
+.dark-mode-btn{
+    width: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+
+    filter:invert(100%);//filter es una propiedad de css con invert se invierte el color original 
+    &:hover{
+        cursor: pointer;
+    }
+    @include tablet{
+        margin-top: 0;//para quirar el margin en disp más grandes
+    }
+}
+
+
 .barra{
     display: flex;//los pone en horizontal ---
 
@@ -7,21 +31,19 @@
     @include tablet{
         flex-direction: row; //hace que se vea en horizontal en un dispositivo más grande
         justify-content: space-between; //pone los elemtentps uno al izq y otro a la derecha
+        align-items: flex-end; //para que el logotipo se centre con la nav 
     }
 }
 
-.navegacion-header{
 
+.navegacion{
+    //con el uso de 'display' no se pueden hacer animaciones
+    //display: none;//hace que los elemntos de la navegacion no sean visibles a menos que se esté en una tablet o disp más grande
     /*ANIMACIONES*/
     //visibility es muy paracido a display, y este sí nos permite realizar animaciones
     visibility: hidden;
     opacity: 0;//en elementos en una forma de crear trasnpariencia 
     transition: visibility .3s ease-in-out, opacity 0.5s;
-}
-.navegacion{
-    //con el uso de 'display' no se pueden hacer animaciones
-    //display: none;//hace que los elemntos de la navegacion no sean visibles a menos que se esté en una tablet o disp más grande
-
     
                 
     @include tablet{

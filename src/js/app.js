@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', function(){
 
     addEventListener();
+    darkMode()
 })
+
+function darkMode(){
+    const btnDarkMode = document.querySelector('.dark-mode-btn')
+    btnDarkMode.addEventListener('click', function(){
+        document.body.classList.toggle('dark-mode')// toggle si tiene una clase la agrega y si no la quita
+    })
+}
 
 function addEventListener(){
     const mobiMenu = document.querySelector('.mobile-menu')//se selecciona el elemento con la clase mobile-menu
@@ -20,3 +28,4 @@ function navegacionResponsive(){
     //toggle -> si tiene una clase la agrega y si no la quita- una sola linea
     //navegacion.classList.toggle('mostrar')
 }
+
