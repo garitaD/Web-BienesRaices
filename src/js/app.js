@@ -5,9 +5,26 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 function darkMode(){
+
     const btnDarkMode = document.querySelector('.dark-mode-btn')
+    const preferenciaDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
+
+    //console.log(preferenciaDarkMode.matches)//matches es el obj que indica false o true según la conf del sistema operativo
+    if (preferenciaDarkMode.matches){
+        document.body.classList.add('dark-mode')
+    }else{
+        document.body.classList.remove('dark-mode')
+    }
+    preferenciaDarkMode.addEventListener('change', function(){//con esta funcion se leen las preferencias del so del usuario, y el sitio cambia automaticamente(sin recargar)
+        if (preferenciaDarkMode.matches){
+            document.body.classList.add('dark-mode')
+        }else{
+            document.body.classList.remove('dark-mode')
+        }
+
+    })
     btnDarkMode.addEventListener('click', function(){
-        document.body.classList.toggle('dark-mode')// toggle si tiene una clase la agrega y si no la quita
+    document.body.classList.toggle('dark-mode')// toggle si tiene una clase la agrega y si no la quita
     })
 }
 

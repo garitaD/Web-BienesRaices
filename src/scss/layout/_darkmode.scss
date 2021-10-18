@@ -7,7 +7,8 @@
     a, h1, h2, h3, h4{
         color: $gris;
     }
-    .anuncio{
+    .anuncio,
+    .resumen-propiedad{
         background-color: $grisOscuro;
         border: 1px solid $grisOscuro;
         .precio{
@@ -15,6 +16,25 @@
         }
         .icono-anuncio{
            filter:invert(100%) 
+        }
+    }
+    .texto-nosotros blockquote{//selector de nosotros
+        color: $blanco;
+    }
+
+    //parte de contacto
+    .formulario{
+        label,
+        legend,
+        p{
+            color: $gris;
+        }
+        input:not([type="submit"]),
+        textarea,
+        select{//se hace uso de un selector de atributo para aplicar estilos a todos los input menos a los tipo submit
+            background-color: $grisOscuro;
+            border: 1px solid $grisOscuro;
+            color: $blanco;
         }
     }
 }

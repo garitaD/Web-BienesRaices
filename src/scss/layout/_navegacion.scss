@@ -43,7 +43,8 @@
     //visibility es muy paracido a display, y este sí nos permite realizar animaciones
     visibility: hidden;
     opacity: 0;//en elementos en una forma de crear trasnpariencia 
-    transition: visibility .3s ease-in-out, opacity 0.5s;
+    transition: visibility .3s ease-in-out, opacity 0.5s, height .5s linear;
+    height: 0;//para que no tenga altura de más
     
                 
     @include tablet{
@@ -83,4 +84,5 @@
 .mostrar{
     visibility: visible;//hace que sea vea(display block)
     opacity: 1;
+    height: auto;//una vex tenga la clase de mostrar que tome el espacio que requiera
 }
