@@ -1,38 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anuncios</title>
-    <link rel="stylesheet" href="build/css/app.css">
-</head>
-
-<body>
-    <header class="header">
-        <div class="contenedor contenido-header">
-            <div class="barra">
-
-                <a href="/">
-                    <img src="build/img/logo.svg" alt="Logotipo">
-                </a>
-                <div class="mobile-menu">
-                    <img src="build/img/barras.svg" alt="Icono Menú Responsive">
-                </div>
-
-                <div class="derecha">
-                    <img class="dark-mode-btn" src="build/img/dark-mode.svg" alt="Dark mode">
-                    <nav class="navegacion">
-                        <a href="nosotros.html">Nosotros</a>
-                        <a href="anuncios.html">Anuncios</a>
-                        <a href="blog.html">Blog</a>
-                        <a href="contacto.html">Contacto</a>
-                    </nav>
-                </div>
-            </div> <!--.barra-->
-        </div>
-    </header>
+<?php 
+    /* include sirve bien para templates y requiere se usa para codigo más complejo como funciones (en caso 
+    de que no lo pueda cargar va a ser un error) */
+    require 'includes/funciones.php';
+    
+    incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
+?>
 
     <main class="contenedor seccion contenido-centrado">
         <h1>Casa en Venta frente al bosque</h1>
@@ -79,18 +51,9 @@
     </main>
 
 
-    <footer class="footer seccion">
-        <div class="contenedor contenedor-footer">
-            <nav class="navegacion">
-                <a href="nosotros.html">Nosotros</a>
-                <a href="anuncios.html">Anuncios</a>
-                <a href="blog.html">Blog</a>
-                <a href="contacto.html">Contacto</a>
-            </nav>
-        </div>
-        <p class="copy">Todos los derechos Reservados 2021 &copy;</p>
-
-    </footer>
+<?php 
+    incluirTemplate('footer'); 
+?>
 
     <script src="build/js/bundle.min.js"></script>
 </body>
