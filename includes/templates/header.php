@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto</title>
-    <link rel="stylesheet" href="build/css/app.css">
+    <link rel="stylesheet" href="/build/css/app.css">
 </head>
 <body>
     <header class="header <?php echo /*isset*/ ($inicio) ? 'inicio' : ''; ?>"> <!--se  evalua va variable inicio con un operador ternario, 
@@ -16,14 +16,15 @@
             <div class="barra">
 
                 <a href="/">
-                    <img src="build/img/logo.svg" alt="Logotipo">
+                    <img src="/build/img/logo.svg" alt="Logotipo"> <!--Usamos /build con "/" antes para que se busque en la raiz del proyecto 
+                                                            y así se puedan leer los archivos desde la carpeta admin-->
                 </a>
                 <div class="mobile-menu">
-                    <img src="build/img/barras.svg" alt="Icono Menú Responsive">
+                    <img src="/build/img/barras.svg" alt="Icono Menú Responsive">
                 </div>
 
                 <div class="derecha">
-                    <img class="dark-mode-btn" src="build/img/dark-mode.svg" alt="Dark mode">
+                    <img class="dark-mode-btn" src="/build/img/dark-mode.svg" alt="Dark mode">
                     <nav class="navegacion">
                         <a href="nosotros.php">Nosotros</a>
                         <a href="anuncios.php">Anuncios</a>
