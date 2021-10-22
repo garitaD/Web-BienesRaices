@@ -1,32 +1,52 @@
 <?php 
+    // echo "<pre>";
+    // var_dump($_GET);
+    // echo "</pre>";
+
+    //Validar la URL por ID valido
+    $id = $_GET['id'];
+    $id = filter_var($id, FILTER_VALIDATE_INT);//sobreescribimos la variable 
+
+    if(!$id){
+        header('Location/admin');
+    }
     //Conexion a base de datos
     require '../../includes/config/database.php';
     $db = conexion();
 
+    //Consulta para traer los datos de la propiedad
+    $consulta = "SELECT * FROM propiedades WHERE idPropiedades= ${id}";
+    $resultadoPropiedad = mysqli_query($db, $consulta);
+    //echo  $resultado;
+    
+    $propiedad = mysqli_fetch_assoc($resultadoPropiedad);
+    //podedemos sobreescribir las variables ya que dentro de 'propiedad' guardamos el dato de la consulta que se requiere para llenar los campos
+
     //COnsultar base de datos para obtener los vendedores
     $consulta = "SELECT * FROM vendedores";
-    $resuldado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
+    $resultado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
 
     //Arreglo con mensajes de errores
     $errores = [];//arreglo dinamico en el que se irán añadiendo los mensajes de error 
     
-    // se inicializan las variables vacias y después se les asigna una valor, valor que estará dentro del atibuto value en input del html
-    $titulo = '';
-    $precio = '';
-    $descripcion = '';
-    $habitaciones = '';
-    $wc ='';
-    $estacionamiento = '';
-    $idVendedor = '';
+    //A diferencia del create aquí iniciamos las variables con los valores que obtenemos de la base de datos
+    $titulo = $propiedad['titulo'];
+    $precio = $propiedad['precio'];
+    $descripcion = $propiedad['descripcion'];
+    $habitaciones = $propiedad['habitaciones'];
+    $wc =$propiedad['wc'];
+    $estacionamiento = $propiedad['estacionamiento'];
+    $idVendedor = $propiedad['idVendedor'];
+    $imagenPropiedad =$propiedad['imagen'];
 
     $num1 = "correo@correo.com/";
     $num2 = 1;
     /*
     //Sanitizar
-    $resuldado = filter_var($num1, FILTER_SANITIZE_EMAIL);
+    $resultado = filter_var($num1, FILTER_SANITIZE_EMAIL);
     //validar
-    $resuldado = filter_var($num2, FILTER_VALIDATE_INT);//Valida si es un numero entero, si no pasa retorna el false
-    var_dump($resuldado);
+    $resultado = filter_var($num2, FILTER_VALIDATE_INT);//Valida si es un numero entero, si no pasa retorna el false
+    var_dump($resultado);
     */
     
 
@@ -42,7 +62,7 @@
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
-
+        // exit;
         // echo "<pre>";
         // var_dump($_FILES);
         // echo "</pre>";
@@ -85,13 +105,8 @@
             $errores[] = "Vendedor no elegido";
         }
 
-        if(!$imagen['name'] || $imagen['error'] ){
-            $errores[] = "La imagen es obligatoria";   
-        }
-       
-
         //Validar por tamaño (100kb máximo)
-        $medida = 1000 * 100; //para pasar se bytes a kilobytes
+        $medida = 1000 * 1000; //para pasar se bytes a kilobytes
         if($imagen['size'] > $medida){
             $errores[] = "La imagen supera el tamaño maximo permitido";   
         }
@@ -103,33 +118,48 @@
         //Revisar que el arreglo de errores esté vacío para poder hacer el insert en base de datos
 
         if(empty($errores)){
-            /*SUBIDA DE ARCHIVOS*/
+            
             //Crear Carpeta
             $carpetaImagenes = '../../imagenes/';//crea la carpeta en la raiz del proyecto(importa)
+
             if(!is_dir($carpetaImagenes)){ //is_dir-> retorna si una carpeta existe o no
                 mkdir($carpetaImagenes); //si no existe la carpeta la crea
             }
+            $nombreImagen = '';//se declara la variable en este punto para asignarle un nombre segun el condicional
 
-            //Generar un nombre unico para que las imagenes no se sobreescriban
-            $nombreImagen = md5( uniqid( rand(), true) )."jpg";
+            /*SUBIDA DE ARCHIVOS*/
+            //ese condicional elimina la imagen previa en caso que se suba una nueva y mantiene la inicial en caso que no se modifique
+            if($imagen['name']){
+                //Eliminar imagen previa
+                unlink($carpetaImagenes . $propiedad['imagen']);//eliminar un archivo, toma como valor el arvhivo a eliminar
+                //Generar un nombre unico para que las imagenes no se sobreescriban
+                $nombreImagen = md5( uniqid( rand(), true) )."jpg";
 
+                //Subir la imagen
+                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes. $nombreImagen);
+            }else{
+                $nombreImagen= $propiedad['imagen'];
+            }
+            //exit;
 
-            //Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes. $nombreImagen);
-           // exit;
+            
 
-            //Insertar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, idVendedor) 
-            VALUES( '$titulo', '$precio','$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$idVendedor')" ;
+            
+         
 
-            //echo $query; ->para validar que la sintaxis y pobrarlo dentro de workbench
+            //Actualizar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas, las '' indican que son string
+            $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen ='${nombreImagen}', descripcion = '${descripcion}', habitaciones = '${habitaciones}', 
+                    wc = '${wc}', estacionamiento = '${estacionamiento}', titulo = '${titulo}', idVendedor = '${idVendedor}' WHERE idPropiedades = ${id}"; //este ultimo id es que tenemos arriba
 
-            $resuldado = mysqli_query($db, $query);
+            // echo $query; //->para validar que la sintaxis y pobrarlo dentro de workbench
+            // exit;
 
-            if($resuldado){
+            $resultado = mysqli_query($db, $query);
+
+            if($resultado){
                // echo "Insertado Correctamente";
                //Redireccionar al usuario si se realiza el registro
-               header('Location: /admin?resultado=1'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
+               header('Location: /admin?resultado=2'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
                                                         va a tener la url (_GET['resultado'])*/
 
                 //header ->solo funciona mientras no haya nada de html previo | Usar la redireccion donde realmente sea conveniete ya que usarla en reiteradas oacciones causa problemas
@@ -160,8 +190,9 @@
         <!--method="GET"-> expone los datos en la url por lo que se recomienda usarlo en tiendas virtuales donde se requiere el enlace para poder compartirlo por ejemplo -->
         <!--method="POST"-> maneja los datos internamente por lo que se usa en logins o cuando se envian datos o info muy sensible-->
         
-        <!--Cuando se quiere subir archivos dentro de un formulario se debe agregar el atributo ""enctype""-->
-        <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+        <!--Cuando se quiere subir archivos dentro de un formulario se debe agregar el atributo ""enctype""
+            en este caso quitamos el atributo "action" para que redireccione a las misma pag respetando la url que tiene el id-->
+        <form class="formulario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Informacion General</legend>
 
@@ -173,6 +204,7 @@
 
                 <label for="imagen">Imagen:</label>
                 <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+                <img src="/imagenes/<?php echo $imagenPropiedad?>" alt="Imagen de la propiedad" class="imagen-peq">
 
                 <label for="descripcion">Descripcion</label>
                 <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea><!--textarea no tiene un atributo "value" por lo que se ingresa dentro del mismo-->
@@ -204,7 +236,7 @@
                 <select name="vendedor">
                     <option value="">--Seleccione--</option>
                     
-                    <?php while($vendedor = mysqli_fetch_assoc($resuldado)){ /* con fetech assoc podemos acceder a un arreglo de resultados 
+                    <?php while($vendedor = mysqli_fetch_assoc($resultado)){ /* con fetech assoc podemos acceder a un arreglo de resultados 
                                                                             donde las llaves del array son igual q las columnas de la bd*/ ?>
 
                             <option <?php echo $idVendedor === $vendedor['idVendedor'] ? 'selected' : ''; ?>  value="<?php echo $vendedor['idVendedor'] ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido'] ?></option>

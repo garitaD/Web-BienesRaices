@@ -91,7 +91,7 @@
        
 
         //Validar por tamaño (100kb máximo)
-        $medida = 1000 * 100; //para pasar se bytes a kilobytes
+        $medida = 1000 * 1000; //para pasar se bytes a kilobytes
         if($imagen['size'] > $medida){
             $errores[] = "La imagen supera el tamaño maximo permitido";   
         }
