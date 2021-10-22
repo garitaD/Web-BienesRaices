@@ -7,6 +7,12 @@
 .boton-verde{
     @include boton($verde, inline-block)//block toma todo el espacio disponible
 }
+.boton-verde-block{
+    @include boton($verde, block)//block toma todo el espacio disponible
+}
+.boton-rojo-block{
+    @include boton($rojo, block)//block toma todo el espacio disponible
+}
 
 .alinear-derecha{
     display: flex;
