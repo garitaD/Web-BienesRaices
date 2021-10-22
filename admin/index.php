@@ -51,7 +51,9 @@
                         <td>$ <?php echo $propiedad['precio'] ?> </td>
                         <td>
                             <a href="#" class="boton-rojo-block">Eliminar</a>
-                            <a href="#" class="boton-amarillo-block">Actualizar</a>
+                            <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad['idPropiedades'] ?>" 
+                            class="boton-amarillo-block">Actualizar</a> <?php /* gracias a este codigo agregado al enlace obtenedremos el id de
+                                                                        cada propieda que se vaya iterando*/?>
                         </td>
                     </tr>
                     <?php endwhile; ?>
