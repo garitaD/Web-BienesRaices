@@ -30,8 +30,15 @@
                         <a href="anuncios.php">Anuncios</a>
                         <a href="blog.php">Blog</a>
                         <a href="contacto.php">Contacto</a>
+                        
                     </nav>
                 </div>
             </div> <!--.barra-->
+
+            <?php 
+                if($inicio){
+                    echo "<h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>";
+                }
+            ?>
         </div>
     </header>

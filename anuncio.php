@@ -4,47 +4,68 @@
     require 'includes/funciones.php';
     
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
+
+      //Validar la URL por ID valido
+      $id = $_GET['id']; // al enviar por medio del enlace el "id" de la propiedad lo podemos obtener de esta manera
+      $id = filter_var($id, FILTER_VALIDATE_INT);//sobreescribimos la variable 
+      //var_dump($id);
+
+      if(!$id){
+          header('Location: /');
+      }
+      //Conexion a base de datos
+      require 'includes/config/database.php';
+      $db = conexion();
+
+  
+      //Consulta para traer los datos de la propiedad
+      $query = "SELECT * FROM propiedades WHERE idPropiedades= ${id}";
+      $resultado = mysqli_query($db, $query);
+
+    //   echo "<pre>";
+    //   var_dump($resultado);/*dentro de "num_rows" tendremos 1 si la consulta tuvo exito y 0 si no, por lo que podemos usar
+    //                         ese obj para validar*/
+    //   echo "</pre>";
+
+    if($resultado->num_rows === 0){
+        header('Location: /');
+    }
+
+    
+      $propiedad = mysqli_fetch_assoc($resultado);
+
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1>Casa en Venta frente al bosque</h1>
-        <picture>
-            <source src="build/img/destacada.webp" type="image/webp">
-            <source src="build/img/destacada.jpg" type="image/jpeg">
-            <img loading="lazy" src="build/img/destacada.jpg" alt="Imagen De la Propiedad">
-        </picture>
+        <h1><?php echo $propiedad['titulo'];?></h1>
+
+        <!--Al estar subiendo los archivos al servidor la versión webp de la img no va a estar disponible
+        por lo que dejamos solo img-->
+        <img loading="lazy" src="/imagenes/<?php echo $propiedad['imagen'];?>" alt="anuncio" >
 
         <div class="resumen-propiedad">
-            <p class="precio">$3,000,000 </p>
+            <p class="precio"><?php echo $propiedad['precio'];?></p>
             <div class="iconos">
                 <ul class="iconos-caracteristicas">
                     <li>
                         <img class="icono-anuncio"src="build/img/icono_wc.svg" alt="Icono wc" loading="lazy">
-                        <p>3</p>
+                        <p><?php echo $propiedad['wc'];?></p>
                     </li>
 
                     <li>
                         <img class="icono-anuncio" src="build/img/icono_estacionamiento.svg" alt="Icono estacionamiento"
                             loading="lazy">
-                        <p>3</p>
+                        <p><?php echo $propiedad['estacionamiento'];?></p>
                     </li>
 
                     <li>
                         <img class="icono-anuncio" src="build/img/icono_dormitorio.svg" alt="Icono habitaciones" loading="lazy">
-                        <p>4</p>
+                        <p><?php echo $propiedad['habitaciones'];?></p>
                     </li>
                 </ul>
             </div>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure adipisci tempore, ab maiores natus sit,
-                quisquam sunt distinctio odit, velit qui non! Id similique ullam accusamus deserunt blanditiis ut
-                aliquam?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam, ad illum magni excepturi ipsam
-                eligendi sunt minima architecto atque harum voluptate sequi, amet ipsa, aspernatur facere quisquam
-                accusantium nostrum hic.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure adipisci tempore, ab maiores natus sit,
-                quisquam sunt distinctio odit, velit qui non! Id similique ullam accusamus deserunt blanditiis ut
-                aliquam?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam, ad illum magni excepturi ipsam
-                eligendi sunt minima architecto atque harum voluptate sequi, amet ipsa, aspernatur facere quisquam
-                accusantium nostrum hic 
+            <p><?php echo $propiedad['descripcion'];?>
             </p>
         </div>
         </div>
@@ -52,6 +73,7 @@
 
 
 <?php 
+    mysqli_close($db);
     incluirTemplate('footer'); 
 ?>
 
