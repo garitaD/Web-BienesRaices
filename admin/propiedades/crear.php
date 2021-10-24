@@ -111,7 +111,7 @@
             }
 
             //Generar un nombre unico para que las imagenes no se sobreescriban
-            $nombreImagen = md5( uniqid( rand(), true) )."jpg";
+            $nombreImagen = md5( uniqid( rand(), true) ).".jpg";
 
 
             //Subir la imagen
@@ -192,7 +192,8 @@
                     placeholder="Ejemplo: 3" 
                     min="1" 
                     max="9" v
-                    value="<?php echo $wc ?>">
+                    value="<?php echo $wc ?>"
+                >
 
                 <label for="estacionamiento">Estacionamiento:</label>
                 <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo $estacionamiento ?>">

@@ -11,7 +11,8 @@
     @include boton($verde, block)//block toma todo el espacio disponible
 }
 .boton-rojo-block{
-    @include boton($rojo, block)//block toma todo el espacio disponible
+    @include boton($rojo, block);//block toma todo el espacio disponible
+    width: 100%;
 }
 
 .alinear-derecha{
