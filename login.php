@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //el codigo se ejecuta una vez se e
                 $_SESSION['usuario'] = $usuario['email'];
                 $_SESSION['login'] = true; //teneamos una sesion activa y todo esta disponible hasta que se cierre o expiere la sesion
 
+                header('Location: /admin');
             }else{
                 $errores[]= 'El password es incorrecto';
             }

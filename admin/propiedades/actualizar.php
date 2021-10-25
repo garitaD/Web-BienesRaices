@@ -1,4 +1,11 @@
 <?php 
+    //Autenticamos al usuario
+    require '../../includes/funciones.php';
+    $auth = estaAutenticado();
+
+    if(!$auth){
+        header('Location: /');
+    }
     // echo "<pre>";
     // var_dump($_GET);
     // echo "</pre>";
@@ -141,12 +148,7 @@
                 $nombreImagen= $propiedad['imagen'];
             }
             //exit;
-
-            
-
-            
-         
-
+    
             //Actualizar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas, las '' indican que son string
             $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen ='${nombreImagen}', descripcion = '${descripcion}', habitaciones = '${habitaciones}', 
                     wc = '${wc}', estacionamiento = '${estacionamiento}', titulo = '${titulo}', idVendedor = '${idVendedor}' WHERE idPropiedades = ${id}"; //este ultimo id es que tenemos arriba
@@ -169,7 +171,7 @@
         
     }
 
-    require '../../includes/funciones.php';
+    
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
 

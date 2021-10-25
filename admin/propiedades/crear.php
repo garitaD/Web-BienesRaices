@@ -1,4 +1,11 @@
 <?php 
+    //Autenticamos al usuario
+    require '../../includes/funciones.php';
+    $auth = estaAutenticado();
+
+    if(!$auth){
+        header('Location: /');
+    }
     //Conexion a base de datos
     require '../../includes/config/database.php';
     $db = conexion();
@@ -138,8 +145,6 @@
 
         
     }
-
-    require '../../includes/funciones.php';
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
 

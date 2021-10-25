@@ -1,17 +1,11 @@
 <?php 
-    session_start();//se trae los datos de la session del usuario
+    //Autenticamos al usuario
+    require '../includes/funciones.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
+    $auth = estaAutenticado();
 
-
-    // echo "<pre>";
-    // var_dump($_SESSION);
-    // echo "</pre>";
-    //$_SESSION contiene los datos de la session del usuario
-    
-    $auth = $_SESSION['login'];
     if(!$auth){
         header('Location: /');
     }
-
     //Consulta de bd
     //Paso 1 -> Importar la conexión
     require '../includes/config/database.php';
@@ -56,7 +50,7 @@
 
 
     //Incluye un template
-    require '../includes/funciones.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
+    
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
 

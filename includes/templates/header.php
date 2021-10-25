@@ -1,3 +1,14 @@
+<?php
+    
+    //si ya está iniciada la sesión no hacemos nada pero de lo contrario la iniciamos
+    if(!isset($_SESSION)){
+        session_start();//siempre que se quiera traer informacion del usuario de la session se debe iniciar la session
+    }
+    $auth = $_SESSION['login'] ?? false;
+    //var_dump($auth);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +41,9 @@
                         <a href="anuncios.php">Anuncios</a>
                         <a href="blog.php">Blog</a>
                         <a href="contacto.php">Contacto</a>
-                        
+                        <?php if($auth):?>
+                            <a href="cerrar-sesion.php">Cerrar Sesion</a>
+                        <?php endif;?>
                     </nav>
                 </div>
             </div> <!--.barra-->
