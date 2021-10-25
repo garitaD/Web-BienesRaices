@@ -23,11 +23,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //el codigo se ejecuta una vez se e
     if (empty($errores)) {
         //Revisar si el usuario exite
         $query = "SELECT * FROM usuarios WHERE email = '${email}'";
-        var_dump($query);
+        $resultado = mysqli_query($db, $query);
+        //var_dump($resultado);//dentro del obj num_rows tendremos un 1 si la consulta tiene algun resultado
+
+        if( $resultado ->num_rows){
+            //Revisar si el password es correcto 
+            $usuario = mysqli_fetch_assoc($resultado);
+            $auth = password_verify($password, $usuario['password']);
+
+            if($auth){
+                //El usuaruio está auntenticado
+                session_start();
+
+                /*$_SESSION es una superglobal que nos permire almacenar cualquier tipo de informacion en la seccion
+                por ejemplo se podría hacer uso de roles
+                */
+                //Llenar el arreglo de la sesión
+                $_SESSION['usuario'] = $usuario['email'];
+                $_SESSION['login'] = true; //teneamos una sesion activa y todo esta disponible hasta que se cierre o expiere la sesion
+
+            }else{
+                $errores[]= 'El password es incorrecto';
+            }
+
+        }else{
+            $errores[] = "El usuario no existe";
+        }
+
     }
-    echo "<pre>";
-    var_dump($errores);
-    echo "</pre>";
+    // echo "<pre>";
+    // var_dump($errores);
+    // echo "</pre>";
 }
 
 //Incluye el header

@@ -1,7 +1,16 @@
 <?php 
+    session_start();//se trae los datos de la session del usuario
+
+
     // echo "<pre>";
-    // var_dump($_POST);
+    // var_dump($_SESSION);
     // echo "</pre>";
+    //$_SESSION contiene los datos de la session del usuario
+    
+    $auth = $_SESSION['login'];
+    if(!$auth){
+        header('Location: /');
+    }
 
     //Consulta de bd
     //Paso 1 -> Importar la conexión
