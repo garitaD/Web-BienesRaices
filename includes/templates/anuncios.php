@@ -1,7 +1,7 @@
 <?php
     /*Paso 1 -> Importar la conexión ->Al ser una ruta que incluye en otros archivos (index y anuncios en la raiz del proyecto)
     la ruta debe ser relativa a esos archivos o relativa desde el archivo en el que estamos, para eso hacemos uso de __DIR__*/
-    require __DIR__ .'/../config/database.php';
+    
     $db = conexion();
 
     //Paso 2 -> Escribir el Query
