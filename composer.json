@@ -1,0 +1,18 @@
+{
+    "name": "daniel/web-bienes-raices",
+    "description": "Creando un proyecto con POO",
+    "type": "project",
+    
+    "authors": [
+        {
+            "name": "Daniel Garita",
+            "email": "danerogb@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "./classes"
+        }
+    }
+}

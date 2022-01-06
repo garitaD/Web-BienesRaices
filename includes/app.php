@@ -1,5 +1,12 @@
 <?php
+require 'funciones.php';//funciones viene a ser el arch principal que manda a llamar funciones y clases
+require 'config/database.php';
+require __DIR__ . '/../vendor/autoload.php' ;
 
-//con __DIR__ se le permite a php definir dónde se encuetran los archivos (ruta)
-define('TEMPLATES_URL', __DIR__ . '\templates');
-define('FUNCIONES_URL', 'funciones.php');
+use App\Propiedad;
+
+
+$propiedad = new Propiedad();
+var_dump($propiedad);
+
+?>
