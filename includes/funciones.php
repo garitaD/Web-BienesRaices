@@ -12,7 +12,7 @@ function incluirTemplate( string $nombre, bool $inicio = false ){
 function estaAutenticado() {
     session_start();//se trae los datos de la session del usuario
 
-    if(!$_SESSION['login']){
+    if(!$_SESSION['login']){//si no está autenticado
         header('Location: /');
     }
 }

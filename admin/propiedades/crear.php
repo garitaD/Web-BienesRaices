@@ -5,16 +5,13 @@
     use App\Propiedad; //importar la clase propiedad
 
     
-    // $propiedad = new Propiedad;
+    // 
     
 
     // debuguear($propiedad);
-    $auth = estaAutenticado();
+    estaAutenticado();
 
-    if(!$auth){
-        header('Location: /');
-    }
-  
+   
     $db = conexion();
 
     //COnsultar base de datos para obtener los vendedores
@@ -52,14 +49,17 @@
         /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
             _POST-> tree la informacion cuando se envia una petición tipo post en el formulario 
             _FILES-> Permite ver el contenido de los archivos*/
-            
+        $propiedad = new Propiedad($_POST); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
+        
+        $propiedad->guardar();
+        // debuguear($propiedad);
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
 
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
+        echo "<pre>";
+        var_dump($_FILES);
+        echo "</pre>";
 
         //leemos lo que el usuario ha escrito en el formulario y lo guardamos en variables para poder validarlo
         $titulo = mysqli_real_escape_string( $db, $_POST['titulo'] );
@@ -68,7 +68,7 @@
         $habitaciones = mysqli_real_escape_string( $db, $_POST['habitaciones'] );
         $wc = mysqli_real_escape_string( $db, $_POST['wc'] );
         $estacionamiento = mysqli_real_escape_string( $db, $_POST['estacionamiento'] );
-        $idVendedor = mysqli_real_escape_string( $db, $_POST['vendedor'] );
+        $idVendedor = mysqli_real_escape_string( $db, $_POST['idVendedor'] );
         $creado = date('Y/m/d');
 
         //Asignar files hacia una variable
@@ -214,11 +214,11 @@
             <fieldset>
                 <legend>Vendedor</legend>
 
-                <select name="vendedor">
+                <select name="idVendedor">
                     <option value="">--Seleccione--</option>
                     
                     <?php while($vendedor = mysqli_fetch_assoc($resuldado)){ /* con fetech assoc podemos acceder a un arreglo de resultados 
-                                                                            donde las llaves del array son igual q las columnas de la bd*/ ?>
+                    donde las llaves del array son igual q las columnas de la bd*/ ?>
 
                             <option <?php echo $idVendedor === $vendedor['idVendedor'] ? 'selected' : ''; ?>  value="<?php echo $vendedor['idVendedor'] ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido'] ?></option>
                         

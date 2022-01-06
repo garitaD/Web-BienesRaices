@@ -1,6 +1,7 @@
 <?php 
     //Autenticamos al usuario
-    require '../includes/funciones.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
+    require '../includes/app.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
+    
     $auth = estaAutenticado();
 
     if(!$auth){
