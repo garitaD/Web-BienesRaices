@@ -1,13 +1,22 @@
 <?php 
     //Autenticamos al usuario
-    require '../../includes/funciones.php';
+    require '../../includes/app.php';
+
+    use App\Propiedad; //importar la clase propiedad
+
+    
+    $propiedad = new Propiedad;
+    
+
+    echo "<pre>";
+    var_dump($propiedad);
+    echo "</pre>";
     $auth = estaAutenticado();
 
     if(!$auth){
         header('Location: /');
     }
-    //Conexion a base de datos
-    require '../../includes/config/database.php';
+  
     $db = conexion();
 
     //COnsultar base de datos para obtener los vendedores
