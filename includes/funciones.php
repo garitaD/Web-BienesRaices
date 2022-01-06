@@ -9,11 +9,17 @@ function incluirTemplate( string $nombre, bool $inicio = false ){
     include TEMPLATES_URL . "/${nombre}.php";//en este caso deben ser comillas dobles a fuerza
 }
 
-function estaAutenticado() : bool{
+function estaAutenticado() {
     session_start();//se trae los datos de la session del usuario
-    $auth = $_SESSION['login'];
-    if($auth){
-        return true;
+
+    if(!$_SESSION['login']){
+        header('Location: /');
     }
-    return false;
+}
+//Funcntion que se encarga de darle formato a los var_dump 
+function debuguear($varaible){
+    echo "<pre>";
+    var_dump($varaible);
+    echo "</pre>";
+    exit;
 }

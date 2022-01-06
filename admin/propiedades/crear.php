@@ -5,12 +5,10 @@
     use App\Propiedad; //importar la clase propiedad
 
     
-    $propiedad = new Propiedad;
+    // $propiedad = new Propiedad;
     
 
-    echo "<pre>";
-    var_dump($propiedad);
-    echo "</pre>";
+    // debuguear($propiedad);
     $auth = estaAutenticado();
 
     if(!$auth){
