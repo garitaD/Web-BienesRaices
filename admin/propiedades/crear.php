@@ -57,9 +57,9 @@
         // var_dump($_POST);
         // echo "</pre>";
 
-        echo "<pre>";
-        var_dump($_FILES);
-        echo "</pre>";
+        // echo "<pre>";
+        // var_dump($_FILES); ->dentro de la super global de files se almacenan las imagenes
+        // echo "</pre>";
 
         //leemos lo que el usuario ha escrito en el formulario y lo guardamos en variables para poder validarlo
         $titulo = mysqli_real_escape_string( $db, $_POST['titulo'] );
@@ -132,11 +132,7 @@
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes. $nombreImagen);
            // exit;
 
-            //Insertar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, idVendedor) 
-            VALUES( '$titulo', '$precio','$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$idVendedor')" ;
-
-            //echo $query; ->para validar que la sintaxis y pobrarlo dentro de workbench
+            
 
             $resuldado = mysqli_query($db, $query);
 

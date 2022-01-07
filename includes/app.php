@@ -5,8 +5,10 @@ require __DIR__ . '/../vendor/autoload.php' ;
 
 use App\Propiedad;
 
+//Conectarnos a la base de datos
+$db = conexion();
 
-$propiedad = new Propiedad;
+Propiedad::setDB($db); //De esta manera todos los objs de la clase Propiedad van a tener la referencia a la base de datos
 
 
 ?>
