@@ -8,6 +8,9 @@ class Propiedad{
     //este arreglo permite identificar qué forma van a tener los datos (Siguiendo el principio de Active Record cada atributo tiene el mismo nombre que la columna en la bd)  para mapear el obj 
     protected static $columasDB=['idPropiedades', 'titulo','imagen','descripcion','habitaciones','wc','estacionamiento','creado','idVendedor'];
 
+    //Validación
+    protected static $errores = [];
+
 
     public $idPropiedades;
     public $titulo;
@@ -48,7 +51,6 @@ class Propiedad{
 
 
 
-        //Insertar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas | Al estar en una instancia usamos this dentro de la consulta
         $query = "INSERT INTO propiedades ( ";
         $query .= join(', ',array_keys($atributos));
         $query .= " ) VALUES (' ";
@@ -59,7 +61,7 @@ class Propiedad{
 
 
         $resultado=self::$db->query($query);
-        debuguear($resultado);
+        //debuguear($resultado);
 
     }
 
@@ -88,6 +90,51 @@ class Propiedad{
        }
        return $sanitizado;
        //debuguear($sanitizado);//para comprobar que se debugueo correctamente se puede poner un ' en el texto
+    }
+
+    //Validacion
+    public static function getErrores(){
+        return self::$errores;
+    }
+
+    public function validar(){
+        //Recordar la importancia del self a la hora de usar static, sin esto nos daría error
+
+        if(!$this->titulo){
+            self::$errores[] = "Debes añadir un titulo";
+        }
+        if(!$this->precio){
+            self::$errores[] = "El precio es obligatorio";
+        }
+        if( strlen($this->descripcion) <60){
+            self::$errores[] = "La descripcion es obligatoria y debe tener al menos 60 caracteres";
+        }
+        if(!$this->habitaciones){
+            self::$errores[] = "El número de habitaciones es obligatorio";
+        }
+
+        if(!$this->wc){
+            self::$errores[] = "El número de Baños es obligatorio";
+        }
+        if(!$this->estacionamiento){
+            self::$errores[] = "El número de espacios de Estacionamiento es obligatorio";
+        }
+        if(!$this->idVendedor){
+            self::$errores[] = "Vendedor no elegido";
+        }
+
+        // if(!$this->imagen['name'] || $this->imagen['error'] ){
+        //     $errores[] = "La imagen es obligatoria";   
+        // }
+       
+
+        // //Validar por tamaño (100kb máximo)
+        // $medida = 1000 * 1000; //para pasar se bytes a kilobytes
+        // if($this->['size'] > $medida){
+        //     $errores[] = "La imagen supera el tamaño maximo permitido";   
+        // }
+
+        return self::$errores;
     }
 
 

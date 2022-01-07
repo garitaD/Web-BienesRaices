@@ -19,8 +19,8 @@
     $resuldado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
 
     //Arreglo con mensajes de errores
-    $errores = [];//arreglo dinamico en el que se irán añadiendo los mensajes de error 
-    
+    $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
+    //debuguear($errores);
     // se inicializan las variables vacias y después se les asigna una valor, valor que estará dentro del atibuto value en input del html
     $titulo = '';
     $precio = '';
@@ -50,73 +50,25 @@
             _POST-> tree la informacion cuando se envia una petición tipo post en el formulario 
             _FILES-> Permite ver el contenido de los archivos*/
         $propiedad = new Propiedad($_POST); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
+        $errores =$propiedad->validar();
+        //debuguear($errores);
         
-        $propiedad->guardar();
-        // debuguear($propiedad);
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
+        
 
         // echo "<pre>";
         // var_dump($_FILES); ->dentro de la super global de files se almacenan las imagenes
         // echo "</pre>";
 
-        //leemos lo que el usuario ha escrito en el formulario y lo guardamos en variables para poder validarlo
-        $titulo = mysqli_real_escape_string( $db, $_POST['titulo'] );
-        $precio = mysqli_real_escape_string( $db, $_POST['precio'] );
-        $descripcion = mysqli_real_escape_string( $db, $_POST['descripcion'] );
-        $habitaciones = mysqli_real_escape_string( $db, $_POST['habitaciones'] );
-        $wc = mysqli_real_escape_string( $db, $_POST['wc'] );
-        $estacionamiento = mysqli_real_escape_string( $db, $_POST['estacionamiento'] );
-        $idVendedor = mysqli_real_escape_string( $db, $_POST['idVendedor'] );
-        $creado = date('Y/m/d');
-
-        //Asignar files hacia una variable
-        $imagen = $_FILES['imagen'];
-        //var_dump($imagen['name']); // si contiene un nombre quiere decir que se agregó una imagen
-     
-
-        if(!$titulo){
-            $errores[] = "Debes añadir un titulo";
-        }
-        if(!$precio){
-            $errores[] = "El precio es obligatorio";
-        }
-        if( strlen($descripcion) <60){
-            $errores[] = "La descripcion es obligatoria y debe tener al menos 60 caracteres";
-        }
-        if(!$habitaciones){
-            $errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if(!$wc){
-            $errores[] = "El número de Baños es obligatorio";
-        }
-        if(!$estacionamiento){
-            $errores[] = "El número de espacios de Estacionamiento es obligatorio";
-        }
-        if(!$idVendedor){
-            $errores[] = "Vendedor no elegido";
-        }
-
-        if(!$imagen['name'] || $imagen['error'] ){
-            $errores[] = "La imagen es obligatoria";   
-        }
-       
-
-        //Validar por tamaño (100kb máximo)
-        $medida = 1000 * 1000; //para pasar se bytes a kilobytes
-        if($imagen['size'] > $medida){
-            $errores[] = "La imagen supera el tamaño maximo permitido";   
-        }
-
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "</pre>";
-        
         //Revisar que el arreglo de errores esté vacío para poder hacer el insert en base de datos
 
         if(empty($errores)){
+
+            $propiedad->guardar();
+        
+            //Asignar files hacia una variable
+            $imagen = $_FILES['imagen'];
+            //var_dump($imagen['name']); // si contiene un nombre quiere decir que se agregó una imagen
+
             /*SUBIDA DE ARCHIVOS*/
             //Crear Carpeta
             $carpetaImagenes = '../../imagenes/';//crea la carpeta en la raiz del proyecto(importa)
