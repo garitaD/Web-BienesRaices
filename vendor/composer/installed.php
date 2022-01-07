@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f81dcf34d2e0ccf20703d1208e0dcab1dd6e85d7',
+        'reference' => 'eeaf5fd47adbe7faecb508a321887d622c45bf2f',
         'name' => 'daniel/web-bienes-raices',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f81dcf34d2e0ccf20703d1208e0dcab1dd6e85d7',
+            'reference' => 'eeaf5fd47adbe7faecb508a321887d622c45bf2f',
             'dev_requirement' => false,
         ),
         'guzzlehttp/psr7' => array(

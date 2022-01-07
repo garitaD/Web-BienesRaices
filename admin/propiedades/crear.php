@@ -3,11 +3,8 @@
     require '../../includes/app.php';
 
     use App\Propiedad; //importar la clase propiedad
-
+    use Intervention\Image\ImageManagerStatic as Image;
     
-    // 
-    
-
     // debuguear($propiedad);
     estaAutenticado();
 
@@ -40,53 +37,53 @@
     var_dump($resuldado);
     */
     
-
-    
     /*$_SERVER -> Es una super globlal de php que nos permite obtener los datos del servidor,
     como por ejemplo el method que se está enviando, este lo evaluamos y podemos obtener los datos de manera de array*/
+
+    /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
+        _POST-> tree la informacion cuando se envia una petición tipo post en el formulario 
+        _FILES-> Permite ver el contenido de los archivos, dentro de esta super global se almacenan los archivos*/
+    
+
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
 
-        /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
-            _POST-> tree la informacion cuando se envia una petición tipo post en el formulario 
-            _FILES-> Permite ver el contenido de los archivos*/
         $propiedad = new Propiedad($_POST); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
-        $errores =$propiedad->validar();
-        //debuguear($errores);
-        
+
+        /*SUBIDA DE ARCHIVOS*/
         
 
-        // echo "<pre>";
-        // var_dump($_FILES); ->dentro de la super global de files se almacenan las imagenes
-        // echo "</pre>";
+        //Generar un nombre unico para que las imagenes no se sobreescriban
+        $nombreImagen = md5( uniqid( rand(), true) ).".jpg";
+
+        //Setear la imagen
+        //Realiza un resize a la imagen con intervation
+        if($_FILES['imagen']['tmp_name']){//si existe la img dentreo de FILES la setea 
+            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen);
+
+
+        }
+        
+        //Validar
+        $errores =$propiedad->validar();
 
         //Revisar que el arreglo de errores esté vacío para poder hacer el insert en base de datos
 
         if(empty($errores)){
 
             $propiedad->guardar();
-        
-            //Asignar files hacia una variable
-            $imagen = $_FILES['imagen'];
-            //var_dump($imagen['name']); // si contiene un nombre quiere decir que se agregó una imagen
 
-            /*SUBIDA DE ARCHIVOS*/
             //Crear Carpeta
-            $carpetaImagenes = '../../imagenes/';//crea la carpeta en la raiz del proyecto(importa)
-            if(!is_dir($carpetaImagenes)){ //is_dir-> retorna si una carpeta existe o no
-                mkdir($carpetaImagenes); //si no existe la carpeta la crea
+            if(!is_dir(CARPETA_IMAGENES)){
+                mkdir(CARPETA_IMAGENES);
             }
+        
+            //Guarda la imagen en el servidor
+            $image->save(CARPETA_IMAGENES. $nombreImagen);
 
-            //Generar un nombre unico para que las imagenes no se sobreescriban
-            $nombreImagen = md5( uniqid( rand(), true) ).".jpg";
+            //Guarda en la base de datos
+            $resultado = $propiedad->guardar();
 
-
-            //Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes. $nombreImagen);
-           // exit;
-
-            
-
-            $resuldado = mysqli_query($db, $query);
 
             if($resuldado){
                // echo "Insertado Correctamente";

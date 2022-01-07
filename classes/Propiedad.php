@@ -6,7 +6,7 @@ class Propiedad{
     //Base de datos | protecded porque solamente de la clase se accede a él | static porque no se requiere instanciar cada conexión a la base de datos
     protected static $db;
     //este arreglo permite identificar qué forma van a tener los datos (Siguiendo el principio de Active Record cada atributo tiene el mismo nombre que la columna en la bd)  para mapear el obj 
-    protected static $columasDB=['idPropiedades', 'titulo','imagen','descripcion','habitaciones','wc','estacionamiento','creado','idVendedor'];
+    protected static $columasDB=['idPropiedades', 'titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','idVendedor'];
 
     //Validación
     protected static $errores = [];
@@ -34,7 +34,7 @@ class Propiedad{
         $this->idPropiedades = $args['idPropiedades'] ?? '';//en caso de que no esté presente va a ser un string vacío
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
-        $this->imagen = $args['imagen'] ?? 'imagen.jpg';
+        $this->imagen = $args['imagen'] ?? '';
         $this->descripcion = $args['descripcion'] ?? '';
         $this->habitaciones = $args['habitaciones'] ?? '';
         $this->wc = $args['wc'] ?? '';
@@ -61,6 +61,7 @@ class Propiedad{
 
 
         $resultado=self::$db->query($query);
+        return $resultado;
         //debuguear($resultado);
 
     }
@@ -90,6 +91,16 @@ class Propiedad{
        }
        return $sanitizado;
        //debuguear($sanitizado);//para comprobar que se debugueo correctamente se puede poner un ' en el texto
+    }
+
+    //Subida de archivos
+    public function setImagen($imagen){
+
+        //Asignar al atributo de la imagen el nombre de la imagen
+        if($imagen){
+            $this->imagen = $imagen;
+        }
+        //debuguear($imagen);
     }
 
     //Validacion
@@ -123,16 +134,12 @@ class Propiedad{
             self::$errores[] = "Vendedor no elegido";
         }
 
-        // if(!$this->imagen['name'] || $this->imagen['error'] ){
-        //     $errores[] = "La imagen es obligatoria";   
-        // }
+        if(!$this->imagen){
+            self::$errores[] = "La imagen es obligatoria";   
+        }
        
 
-        // //Validar por tamaño (100kb máximo)
-        // $medida = 1000 * 1000; //para pasar se bytes a kilobytes
-        // if($this->['size'] > $medida){
-        //     $errores[] = "La imagen supera el tamaño maximo permitido";   
-        // }
+        
 
         return self::$errores;
     }

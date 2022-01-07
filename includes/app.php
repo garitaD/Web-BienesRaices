@@ -4,6 +4,7 @@ require 'config/database.php';
 require __DIR__ . '/../vendor/autoload.php' ;
 
 use App\Propiedad;
+Intervention\Image\ImageServiceProvider::class;
 
 //Conectarnos a la base de datos
 $db = conexion();
