@@ -43,13 +43,20 @@ class Propiedad{
     public function guardar(){
         //Antes se ingresar se debe sanitizar los datos
         $atributos = $this->sanitizarAtributos();
-        debuguear($atributos);
+        //debuguear($atributos);
+        //array_keys y array_values nos permiten acceder tanto a las llaves y valores de un arreglo
 
 
 
         //Insertar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas | Al estar en una instancia usamos this dentro de la consulta
-        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, idVendedor) 
-        VALUES( '$this->titulo', '$this->precio','$this->imagen', '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->estacionamiento', '$this->creado', '$this->idVendedor')" ;
+        $query = "INSERT INTO propiedades ( ";
+        $query .= join(', ',array_keys($atributos));
+        $query .= " ) VALUES (' ";
+        $query .= join("', '",array_values($atributos));
+        $query .= " ') ";
+
+        //debuguear($query);
+
 
         $resultado=self::$db->query($query);
         debuguear($resultado);
