@@ -1,24 +1,13 @@
 <?php 
     //Autenticamos al usuario
     require '../includes/app.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
+
+    use App\Propiedad;
     
-    $auth = estaAutenticado();
+    estaAutenticado();
 
-    if(!$auth){
-        header('Location: /');
-    }
-    //Consulta de bd
-    //Paso 1 -> Importar la conexión
-    require '../includes/config/database.php';
-    $db = conexion(); //instancia a la conexión de la bd
-
-
-    //Paso 2 -> Escribir el Query
-    $query = "SELECT * FROM propiedades";
-
-    //Paso 3 -> Consultar la base de datos 
-    $resultadoConsulta = mysqli_query($db, $query);
-
+    //Implementar un metodo para obtener todas las propiedades utilizando active record
+    $propiedades = Propiedad::all();
 
 
     //?? null-> si no encuentra un _GET con el valor de resultado le asigna un null

@@ -144,6 +144,51 @@ class Propiedad{
         return self::$errores;
     }
 
+    //Listar todas las propiedades
+    public static function all(){
+        $query ="SELECT * FROM PROPIEDADES";
+
+        $resultado = self::consultarSQL($query);
+       // debuguear($resultado->fetch_assoc());
+
+       return $resultado;
+    }
+
+    public static function consultarSQL($query){
+        //Constultar la base de datos
+        $resultado = self::$db->query($query);
+
+        //Iterar los resultados
+        $array = [];
+        while($registro = $resultado ->fetch_assoc()){
+            $array[] = self::crearObjeto($registro);//se crea un arreglo de objetos
+        }
+        //debuguear($array);
+
+        //Liberar la memoria 
+        $resultado->free();
+
+        //Retornar los resultados
+        return $array;
+    }
+
+
+    //Toma los arreglos que vienen de la base de datos y crea los objs
+    protected static function crearObjeto($registro){
+
+        $objeto = new self;
+
+        foreach($registro as $key => $value){//al ser un arreglo asociativo se hace uso de key y value
+
+            //si el obj tiene una llave del arreglo
+            if(property_exists($objeto, $key )){
+                $objeto -> $key = $value;
+            }
+
+        }
+        return $objeto;
+    }
+
 
    
 }
