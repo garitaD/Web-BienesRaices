@@ -23,3 +23,10 @@ function debuguear($varaible){
     echo "</pre>";
     exit;
 }
+
+//Escapa el HTML - IMPORTANTE -> es importante a la hora de imprimir datos ingresados por el usuario sanitizarlos
+function sanitizar($html){
+    $s = htmlspecialchars($html);
+    return $s;
+
+}

@@ -40,7 +40,7 @@ class Propiedad{
         $this->wc = $args['wc'] ?? '';
         $this->creado = date('Y/m/d');
         $this->estacionamiento = $args['estacionamiento'] ?? '';
-        $this->idVendedor = $args['idVendedor'] ?? '';
+        $this->idVendedor = $args['idVendedor'] ?? 1;
     }
 
     public function guardar(){
