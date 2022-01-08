@@ -44,13 +44,24 @@ class Propiedad{
     }
 
     public function guardar(){
+        if(isset($this->idPropiedades)){
+            //Actualizar
+            $this->actualizar();
+
+        }else{
+            //Creando un nuevo registro
+            $this->crear();
+        }
+
+    }
+
+
+
+    public function crear(){
         //Antes se ingresar se debe sanitizar los datos
         $atributos = $this->sanitizarAtributos();
         //debuguear($atributos);
         //array_keys y array_values nos permiten acceder tanto a las llaves y valores de un arreglo
-
-
-
         $query = "INSERT INTO propiedades ( ";
         $query .= join(', ',array_keys($atributos));
         $query .= " ) VALUES (' ";
@@ -64,6 +75,32 @@ class Propiedad{
         return $resultado;
         //debuguear($resultado);
 
+    }
+
+    public function actualizar(){
+        //Antes se ingresar se debe sanitizar los datos
+        $atributos = $this->sanitizarAtributos();
+        $valores = [];//va al obj y une atributos con valores
+
+        foreach($atributos as $key => $value){
+            $valores[] = "{$key}='{$value}'";
+
+        }
+        //debuguear(join(', ',$valores));
+        $query = "UPDATE PROPIEDADES SET ";
+        $query .= join(', ',$valores);
+        $query .= " WHERE IDPROPIEDADES = '" . self::$db->escape_string($this->idPropiedades). "' "; 
+        $query .= "LIMIT 1";
+
+        //debuguear($query);
+        $resultado = self::$db->query($query);
+        if($resultado){
+            //Redireccionar al usuario si se realiza el registro
+            header('Location: /admin?resultado=2'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
+                                                     va a tener la url (_GET['resultado'])*/
+
+             //header ->solo funciona mientras no haya nada de html previo | Usar la redireccion donde realmente sea conveniete ya que usarla en reiteradas oacciones causa problemas
+         }
     }
 
     //Identificar y unir los atributos de la bd
@@ -96,11 +133,22 @@ class Propiedad{
     //Subida de archivos
     public function setImagen($imagen){
 
-        //Asignar al atributo de la imagen el nombre de la imagen
-        if($imagen){
-            $this->imagen = $imagen;
+        //Elima la imagen previa | Isset revisa si existe y que además qtenga un valor
+        if(isset($this->idPropiedades)){
+            //Comprobar si existe el archivo
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            
+            if($existeArchivo){
+                unlink(CARPETA_IMAGENES . $this->imagen);
+            }
+            //debuguear($existeArchivo);
         }
-        //debuguear($imagen);
+        //Asignar al atributo de imagen el nombre de la imagen
+        if($imagen){
+            $this->imagen=$imagen;
+        }
+
+        
     }
 
     //Validacion

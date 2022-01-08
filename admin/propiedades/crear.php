@@ -31,6 +31,7 @@
     
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
+        //debuguear($_POST);
 
         $propiedad = new Propiedad($_POST['propiedad']); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
 
@@ -46,8 +47,6 @@
         if($_FILES['propiedad']['tmp_name']['imagen']){//si existe la img dentreo de FILES la setea 
             $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
             $propiedad->setImagen($nombreImagen);
-
-
         }
         
         //Validar
@@ -57,7 +56,7 @@
 
         if(empty($errores)){
 
-            $propiedad->guardar();
+           // $propiedad->guardar();
 
             //Crear Carpeta
             if(!is_dir(CARPETA_IMAGENES)){

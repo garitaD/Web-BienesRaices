@@ -1,7 +1,9 @@
 <?php 
     //Autenticamos al usuario
 //se importa la clase para poder hacer uso de los metodos
-use App\Propiedad;
+
+use App\Propiedad; //importar la clase propiedad
+use Intervention\Image\ImageManagerStatic as Image;
 
 require '../../includes/app.php';
     estaAutenticado();
@@ -30,8 +32,10 @@ require '../../includes/app.php';
     $resultado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
 
     //Arreglo con mensajes de errores
-    $errores = [];//arreglo dinamico en el que se irán añadiendo los mensajes de error 
+    $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
+    
   
+    
 
 
     
@@ -42,95 +46,43 @@ require '../../includes/app.php';
         _FILES-> Permite ver el contenido de los archivos*/
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
         //debuguear($_POST);
+        //debuguear($_FILES['propiedad']);
 
         //Asignar los atributos
         $args =$_POST['propiedad'];//esto es posible gracias a dentro del name del formulario de agregó que fuera un aray
         $propiedad->sincronizar($args);
-        debuguear($propiedad);
+        //debuguear($propiedad);
 
-       
-        //Asignar files hacia una variable
-        $imagen = $_FILES['imagen'];
-        //var_dump($imagen['name']); // si contiene un nombre quiere decir que se agregó una imagen
+        //Validacion
+        $errores = $propiedad->validar();
+
+        //Generar un nombre unico para que las imagenes no se sobreescriban
+        $nombreImagen = md5( uniqid( rand(), true) ).".jpg";
+
+        
+        
+        //debuguear($_FILES['propiedad']);
+        //debuguear($nombreImagen);
+        //Subida de archivos
+        if($_FILES['propiedad']['tmp_name']['imagen']){//si existe la img dentreo de FILES la setea 
+            
+            $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen);
+        }
+       // debuguear($propiedad);
+
+        //
+
      
-
-        if(!$titulo){
-            $errores[] = "Debes añadir un titulo";
-        }
-        if(!$precio){
-            $errores[] = "El precio es obligatorio";
-        }
-        if( strlen($descripcion) <60){
-            $errores[] = "La descripcion es obligatoria y debe tener al menos 60 caracteres";
-        }
-        if(!$habitaciones){
-            $errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if(!$wc){
-            $errores[] = "El número de Baños es obligatorio";
-        }
-        if(!$estacionamiento){
-            $errores[] = "El número de espacios de Estacionamiento es obligatorio";
-        }
-        if(!$idVendedor){
-            $errores[] = "Vendedor no elegido";
-        }
-
-        //Validar por tamaño (100kb máximo)
-        $medida = 1000 * 1000; //para pasar se bytes a kilobytes
-        if($imagen['size'] > $medida){
-            $errores[] = "La imagen supera el tamaño maximo permitido";   
-        }
-
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "</pre>";
         
         //Revisar que el arreglo de errores esté vacío para poder hacer el insert en base de datos
 
         if(empty($errores)){
+            //Amacenar la imagen 
+            $image->save(CARPETA_IMAGENES . $nombreImagen);
+            $resultado=$propiedad->guardar();
             
-            //Crear Carpeta
-            $carpetaImagenes = '../../imagenes/';//crea la carpeta en la raiz del proyecto(importa)
-
-            if(!is_dir($carpetaImagenes)){ //is_dir-> retorna si una carpeta existe o no
-                mkdir($carpetaImagenes); //si no existe la carpeta la crea
-            }
-            $nombreImagen = '';//se declara la variable en este punto para asignarle un nombre segun el condicional
-
-            /*SUBIDA DE ARCHIVOS*/
-            //ese condicional elimina la imagen previa en caso que se suba una nueva y mantiene la inicial en caso que no se modifique
-            if($imagen['name']){
-                //Eliminar imagen previa
-                unlink($carpetaImagenes . $propiedad['imagen']);//eliminar un archivo, toma como valor el arvhivo a eliminar
-                //Generar un nombre unico para que las imagenes no se sobreescriban
-                $nombreImagen = md5( uniqid( rand(), true) )."jpg";
-
-                //Subir la imagen
-                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes. $nombreImagen);
-            }else{
-                $nombreImagen= $propiedad['imagen'];
-            }
-            //exit;
-    
-            //Actualizar en la base de datos | Es importante respetar esta sintaxis en cuantos a las comullas dobles y sencillas, las '' indican que son string
-            $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen ='${nombreImagen}', descripcion = '${descripcion}', habitaciones = '${habitaciones}', 
-                    wc = '${wc}', estacionamiento = '${estacionamiento}', titulo = '${titulo}', idVendedor = '${idVendedor}' WHERE idPropiedades = ${id}"; //este ultimo id es que tenemos arriba
-
-            // echo $query; //->para validar que la sintaxis y pobrarlo dentro de workbench
-            // exit;
-
-            $resultado = mysqli_query($db, $query);
-
-            if($resultado){
-               // echo "Insertado Correctamente";
-               //Redireccionar al usuario si se realiza el registro
-               header('Location: /admin?resultado=2'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
-                                                        va a tener la url (_GET['resultado'])*/
-
-                //header ->solo funciona mientras no haya nada de html previo | Usar la redireccion donde realmente sea conveniete ya que usarla en reiteradas oacciones causa problemas
-            }
+            
         }
 
         
