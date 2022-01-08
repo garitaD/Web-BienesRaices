@@ -1,11 +1,12 @@
 <?php 
     //Autenticamos al usuario
-    require '../../includes/funciones.php';
-    $auth = estaAutenticado();
+//se importa la clase para poder hacer uso de los metodos
+use App\Propiedad;
 
-    if(!$auth){
-        header('Location: /');
-    }
+require '../../includes/app.php';
+    estaAutenticado();
+
+    
     // echo "<pre>";
     // var_dump($_GET);
     // echo "</pre>";
@@ -17,16 +18,11 @@
     if(!$id){
         header('Location/admin');
     }
-    //Conexion a base de datos
-    require '../../includes/config/database.php';
-    $db = conexion();
 
-    //Consulta para traer los datos de la propiedad
-    $consulta = "SELECT * FROM propiedades WHERE idPropiedades= ${id}";
-    $resultadoPropiedad = mysqli_query($db, $consulta);
-    //echo  $resultado;
+    //Obtener los datos de la propiedad
+    $propiedad = Propiedad::find($id);
+    //debuguear($propiedad);
     
-    $propiedad = mysqli_fetch_assoc($resultadoPropiedad);
     //podedemos sobreescribir las variables ya que dentro de 'propiedad' guardamos el dato de la consulta que se requiere para llenar los campos
 
     //COnsultar base de datos para obtener los vendedores
@@ -35,27 +31,8 @@
 
     //Arreglo con mensajes de errores
     $errores = [];//arreglo dinamico en el que se irán añadiendo los mensajes de error 
-    
-    //A diferencia del create aquí iniciamos las variables con los valores que obtenemos de la base de datos
-    $titulo = $propiedad['titulo'];
-    $precio = $propiedad['precio'];
-    $descripcion = $propiedad['descripcion'];
-    $habitaciones = $propiedad['habitaciones'];
-    $wc =$propiedad['wc'];
-    $estacionamiento = $propiedad['estacionamiento'];
-    $idVendedor = $propiedad['idVendedor'];
-    $imagenPropiedad =$propiedad['imagen'];
+  
 
-    $num1 = "correo@correo.com/";
-    $num2 = 1;
-    /*
-    //Sanitizar
-    $resultado = filter_var($num1, FILTER_SANITIZE_EMAIL);
-    //validar
-    $resultado = filter_var($num2, FILTER_VALIDATE_INT);//Valida si es un numero entero, si no pasa retorna el false
-    var_dump($resultado);
-    */
-    
 
     
     /*$_SERVER -> Es una super globlal de php que nos permite obtener los datos del servidor,
@@ -195,65 +172,9 @@
         <!--Cuando se quiere subir archivos dentro de un formulario se debe agregar el atributo ""enctype""
             en este caso quitamos el atributo "action" para que redireccione a las misma pag respetando la url que tiene el id-->
         <form class="formulario" method="POST" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Informacion General</legend>
+            <?php include '../../includes/templates/formulario_propiedades.php'?>
 
-                <label for="titulo">Titulo:"</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Titulo Propiedad" value="<?php echo $titulo ?>">
-
-                <label for="precio">Precio:</label>
-                <input type="number" id="precio" name="precio" placeholder="Precio Propiedad" value="<?php echo $precio ?>">
-
-                <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-                <img src="/imagenes/<?php echo $imagenPropiedad?>" alt="Imagen de la propiedad" class="imagen-peq">
-
-                <label for="descripcion">Descripcion</label>
-                <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea><!--textarea no tiene un atributo "value" por lo que se ingresa dentro del mismo-->
-            </fieldset>
-
-            <fieldset>
-                <legend>Informacion Propiedad</legend>
-
-                <label for="habitaciones">Habitaciones:</la bel>
-                <input type="number" id="habitaciones" name="habitaciones" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo $habitaciones ?>">
-
-                <label for="wc">Baños:</label>
-                <input 
-                    type="number" 
-                    id="wc" 
-                    name="wc" 
-                    placeholder="Ejemplo: 3" 
-                    min="1" 
-                    max="9" v
-                    value="<?php echo $wc ?>">
-
-                <label for="estacionamiento">Estacionamiento:</label>
-                <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo $estacionamiento ?>">
-            </fieldset>
-
-            <fieldset>
-                <legend>Vendedor</legend>
-
-                <select name="vendedor">
-                    <option value="">--Seleccione--</option>
-                    
-                    <?php while($vendedor = mysqli_fetch_assoc($resultado)){ /* con fetech assoc podemos acceder a un arreglo de resultados 
-                                                                            donde las llaves del array son igual q las columnas de la bd*/ ?>
-
-                            <option <?php echo $idVendedor === $vendedor['idVendedor'] ? 'selected' : ''; ?>  value="<?php echo $vendedor['idVendedor'] ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido'] ?></option>
-                        
-                    <?php }?>
-
-                    <?php 
-                        /*echo $idVendedor === $vendedor['idVendedor'] ? 'selected' : ''; -> hacemos uso del operador ternario, 
-                        cuando se seleccione lo va a evaluar y si llega a ser igual a lo que se está obteniendo en bd le agrega el 
-                        atributo html 'selected' lo que hace que la opción quede seleccionanda en caso de que falten datos de lo contrario pone un string vacío*/
-                    
-                    ?>
-                </select>
-            </fieldset>
-
+           
             <input type="submit" value="Actualizar Propiedad" class="boton boton-verde">
 
         </form>

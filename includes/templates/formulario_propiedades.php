@@ -10,6 +10,10 @@
     <label for="imagen">Imagen:</label>
     <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
+    <?php if($propiedad->imagen):?>
+        <img src="/imagenes/<?php echo $propiedad->imagen?>" class="imagen-peq">
+    <?php endif?>
+
     <label for="descripcion">Descripcion</label>
     <textarea id="descripcion" name="descripcion"><?php echo sanitizar($propiedad->descripcion) ?></textarea>
     <!--textarea no tiene un atributo "value" por lo que se ingresa dentro del mismo-->
@@ -17,6 +21,7 @@
 
 <fieldset>
     <legend>Informacion Propiedad</legend>
+    <!--dentro del value se incluye un echo al objeto de propiedad, de esta manera se autocompleta en caso de que el obj tenga valores-->
 
     <label for="habitaciones">Habitaciones:</la bel>
         <input type="number" id="habitaciones" name="habitaciones" placeholder="Ejemplo: 3" min="1" max="9" value="<?php echo sanitizar($propiedad->habitaciones) ?>">

@@ -144,7 +144,7 @@ class Propiedad{
         return self::$errores;
     }
 
-    //Listar todas las propiedades
+    //Listar todos los registros
     public static function all(){
         $query ="SELECT * FROM PROPIEDADES";
 
@@ -152,6 +152,15 @@ class Propiedad{
        // debuguear($resultado->fetch_assoc());
 
        return $resultado;
+    }
+
+    //Busca un registro por su id | static porque no se requiere una nueva instancia
+    public static function find($id){
+        //Consulta para traer los datos de la propiedad
+        $query = "SELECT * FROM propiedades WHERE idPropiedades= ${id}";
+        $resultado= self::consultarSQL($query);
+        //debuguear(array_shift($resultado));
+        return array_shift($resultado);//array_shift nos devuelve la primera posicion de un arreglo
     }
 
     public static function consultarSQL($query){
