@@ -66,26 +66,26 @@
 
                 <tbody> <!--Paso 4 -> Mostrar los resultados-->
                     
-                    <?php while( $propiedad = mysqli_fetch_assoc($resultadoConsulta)): 
+                    <?php  foreach($propiedades as $propiedad): 
                         //mientras haya resultados en la bd va a generar el tr con los table data?>
                         
-                        <tr>
-                        <td> <?php echo $propiedad['idPropiedades'] ?> </td>
-                        <td> <?php echo $propiedad['titulo'] ?> </td>
-                        <td><img src="/imagenes/<?php echo $propiedad['imagen'] ?>" class="imagen-tabla"></td>
-                        <td>$ <?php echo $propiedad['precio'] ?> </td>
+                    <tr>
+                        <td> <?php echo $propiedad->idPropiedades ?> </td>
+                        <td> <?php echo $propiedad->titulo ?> </td>
+                        <td><img src="/imagenes/<?php echo $propiedad->imagen ?>" class="imagen-tabla"></td>
+                        <td>$ <?php echo $propiedad->precio ?> </td>
                         <td>
                             <form method="POST" class="w-100">
-                                <input type="hidden" name="id" value="<?php echo $propiedad['idPropiedades']; ?>"> <!--hidden es una atributo que hace que un input no sea visible-->
+                                <input type="hidden" name="id" value="<?php echo $propiedad->idPropiedades; ?>"> <!--hidden es una atributo que hace que un input no sea visible-->
                                 <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>
                             
-                            <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad['idPropiedades']; ?>" 
+                            <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad->idPropiedades; ?>" 
                             class="boton-amarillo-block">Actualizar</a> <?php /* gracias a este codigo agregado al enlace obtenedremos el id de
                                                                         cada propieda que se vaya iterando*/?>
                         </td>
                     </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                     
                 </tbody>
             </thead>
