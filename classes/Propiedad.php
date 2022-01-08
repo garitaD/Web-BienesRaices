@@ -198,6 +198,18 @@ class Propiedad{
         return $objeto;
     }
 
+    //Metodo que sincroniza el obj memoria con los cambios realizados por el usuario
+    public function sincronizar($args = []){
+        //Usamos key value ya que vamos a recorrer un arreglo asociativo
+        //compara propiedades del obj con llaves del arreglo y reescribe
+        foreach($args as $key=> $value){ 
+            if(property_exists($this, $key) && !is_null($value)){
+                $this->$key =$value;
+            }
+
+
+        }
+    }
 
    
 }

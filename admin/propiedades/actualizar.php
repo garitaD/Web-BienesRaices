@@ -37,30 +37,18 @@ require '../../includes/app.php';
     
     /*$_SERVER -> Es una super globlal de php que nos permite obtener los datos del servidor,
     como por ejemplo el method que se está enviando, este lo evaluamos y podemos obtener los datos de manera de array*/
+    /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
+        _POST-> tree a informacion cuando se envia una petición tipo post en el formulario 
+        _FILES-> Permite ver el contenido de los archivos*/
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
+        //debuguear($_POST);
 
-        /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
-            _POST-> tree la informacion cuando se envia una petición tipo post en el formulario 
-            _FILES-> Permite ver el contenido de los archivos*/
-            
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
-        // exit;
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
+        //Asignar los atributos
+        $args =$_POST['propiedad'];//esto es posible gracias a dentro del name del formulario de agregó que fuera un aray
+        $propiedad->sincronizar($args);
+        debuguear($propiedad);
 
-        //leemos lo que el usuario ha escrito en el formulario y lo guardamos en variables para poder validarlo
-        $titulo = mysqli_real_escape_string( $db, $_POST['titulo'] );
-        $precio = mysqli_real_escape_string( $db, $_POST['precio'] );
-        $descripcion = mysqli_real_escape_string( $db, $_POST['descripcion'] );
-        $habitaciones = mysqli_real_escape_string( $db, $_POST['habitaciones'] );
-        $wc = mysqli_real_escape_string( $db, $_POST['wc'] );
-        $estacionamiento = mysqli_real_escape_string( $db, $_POST['estacionamiento'] );
-        $idVendedor = mysqli_real_escape_string( $db, $_POST['vendedor'] );
-        $creado = date('Y/m/d');
-
+       
         //Asignar files hacia una variable
         $imagen = $_FILES['imagen'];
         //var_dump($imagen['name']); // si contiene un nombre quiere decir que se agregó una imagen

@@ -32,9 +32,10 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
 
-        $propiedad = new Propiedad($_POST); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
+        $propiedad = new Propiedad($_POST['propiedad']); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
 
         /*SUBIDA DE ARCHIVOS*/
+        //debuguear($_FILES['propiedad']);
         
 
         //Generar un nombre unico para que las imagenes no se sobreescriban
@@ -42,8 +43,8 @@
 
         //Setear la imagen
         //Realiza un resize a la imagen con intervation
-        if($_FILES['imagen']['tmp_name']){//si existe la img dentreo de FILES la setea 
-            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+        if($_FILES['propiedad']['tmp_name']['imagen']){//si existe la img dentreo de FILES la setea 
+            $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
             $propiedad->setImagen($nombreImagen);
 
 
