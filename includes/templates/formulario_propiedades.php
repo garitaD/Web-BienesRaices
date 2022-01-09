@@ -41,7 +41,7 @@
         <?php foreach($vendedores as $vendedor):?>
             <option
              
-                <?php echo $propiedad->idVendedor === $vendedor->id ? 'selected' : '';?>
+                <?php echo $propiedad->idVendedor === $vendedor->idVendedor ? 'selected' : '';?>
                 value="<?php echo sanitizar($vendedor->idVendedor);?>">
                 <?php echo sanitizar($vendedor->nombre . " " . sanitizar($vendedor->apellido));?>
                 <!-- $propiedad es una instancia del objeto que se crea en crear.php -->
@@ -53,13 +53,5 @@
     
     
 
-    <!-- <select name="idVendedor">
-        <option value="">--Seleccione--</option>
-
-        /*echo $idVendedor === $vendedor['idVendedor'] ? 'selected' : ''; -> hacemos uso del operador ternario, 
-                        cuando se seleccione lo va a evaluar y si llega a ser igual a lo que se está obteniendo en bd le agrega el 
-                        atributo html 'selected' lo que hace que la opción quede seleccionanda en caso de que falten datos de lo contrario pone un string vacío*/
-
-        ?>
-    </select> -->
+   
 </fieldset>

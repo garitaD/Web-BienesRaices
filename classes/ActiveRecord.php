@@ -22,6 +22,8 @@ class ActiveRecord{
         //self hace referencia a los atributos static de una misma clase
         //this a lo que este como public o sea parte del objt
         self::$db = $database;
+
+        //la conexion la mantenemos como self porque todas las clases apuntan a la misma base de datos por lo que todo lo que tenga que ver con base de datos o metodos propios se mantiene con self
     }
 
     
@@ -113,7 +115,7 @@ class ActiveRecord{
     //Identificar y unir los atributos de la bd
     public function atributos(){
         $atributos = [];
-        foreach(self::$columasDB as $columna){
+        foreach(static::$columasDB as $columna){
             if($columna === 'idPropiedades') continue; //lo que hace el continue es que cuando se cumpla la condicion lo ignora y pasa al siguiente elemento
 
             $atributos[$columna] = $this->$columna;
@@ -164,43 +166,15 @@ class ActiveRecord{
 
     //Validacion
     public static function getErrores(){
-        return self::$errores;
+        return static::$errores;
     }
 
     public function validar(){
-        //Recordar la importancia del self a la hora de usar static, sin esto nos daría error
-
-        if(!$this->titulo){
-            self::$errores[] = "Debes añadir un titulo";
-        }
-        if(!$this->precio){
-            self::$errores[] = "El precio es obligatorio";
-        }
-        if( strlen($this->descripcion) <60){
-            self::$errores[] = "La descripcion es obligatoria y debe tener al menos 60 caracteres";
-        }
-        if(!$this->habitaciones){
-            self::$errores[] = "El número de habitaciones es obligatorio";
-        }
-
-        if(!$this->wc){
-            self::$errores[] = "El número de Baños es obligatorio";
-        }
-        if(!$this->estacionamiento){
-            self::$errores[] = "El número de espacios de Estacionamiento es obligatorio";
-        }
-        if(!$this->idVendedor){
-            self::$errores[] = "Vendedor no elegido";
-        }
-
-        if(!$this->imagen){
-            self::$errores[] = "La imagen es obligatoria";   
-        }
-       
-
+        //Recordar la importancia del self a la hora de usar static, sin esto nos daría error | En caso de herencia hay que usar static
+        static::$errores=[];
         
 
-        return self::$errores;
+        return static::$errores;
     }
 
     //Listar todos los registros
@@ -232,7 +206,7 @@ class ActiveRecord{
         //Iterar los resultados
         $array = [];
         while($registro = $resultado ->fetch_assoc()){
-            $array[] = self::crearObjeto($registro);//se crea un arreglo de objetos
+            $array[] = static::crearObjeto($registro);//se crea un arreglo de objetos
         }
         //debuguear($array);
 

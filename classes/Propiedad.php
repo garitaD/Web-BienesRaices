@@ -33,6 +33,42 @@ class Propiedad extends ActiveRecord{
         $this->idVendedor = $args['idVendedor'] ?? '';
     }
 
+    public function validar(){
+        //Recordar la importancia del self a la hora de usar static, sin esto nos daría error
+
+        if(!$this->titulo){
+            self::$errores[] = "Debes añadir un titulo";
+        }
+        if(!$this->precio){
+            self::$errores[] = "El precio es obligatorio";
+        }
+        if( strlen($this->descripcion) <60){
+            self::$errores[] = "La descripcion es obligatoria y debe tener al menos 60 caracteres";
+        }
+        if(!$this->habitaciones){
+            self::$errores[] = "El número de habitaciones es obligatorio";
+        }
+
+        if(!$this->wc){
+            self::$errores[] = "El número de Baños es obligatorio";
+        }
+        if(!$this->estacionamiento){
+            self::$errores[] = "El número de espacios de Estacionamiento es obligatorio";
+        }
+        if(!$this->idVendedor){
+            self::$errores[] = "Vendedor no elegido";
+        }
+
+        if(!$this->imagen){
+            self::$errores[] = "La imagen de la propiedad es obligatoria";   
+        }
+       
+
+        
+
+        return self::$errores;
+    }
+
     
    
 }

@@ -3,13 +3,13 @@ require 'funciones.php';//funciones viene a ser el arch principal que manda a ll
 require 'config/database.php';
 require __DIR__ . '/../vendor/autoload.php' ;
 
-use App\Propiedad;
+use App\ActiveRecord;
 Intervention\Image\ImageServiceProvider::class;
 
 //Conectarnos a la base de datos
 $db = conexion();
 
-Propiedad::setDB($db); //De esta manera todos los objs de la clase Propiedad van a tener la referencia a la base de datos
+ActiveRecord ::setDB($db); //De esta manera todos los objs de la clase Propiedad van a tener la referencia a la base de datos
 
 
 ?>

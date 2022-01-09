@@ -3,6 +3,7 @@
 //se importa la clase para poder hacer uso de los metodos
 
 use App\Propiedad; //importar la clase propiedad
+use App\Vendedor;
 use Intervention\Image\ImageManagerStatic as Image;
 
 require '../../includes/app.php';
@@ -25,11 +26,8 @@ require '../../includes/app.php';
     $propiedad = Propiedad::find($id);
     //debuguear($propiedad);
     
-    //podedemos sobreescribir las variables ya que dentro de 'propiedad' guardamos el dato de la consulta que se requiere para llenar los campos
-
-    //COnsultar base de datos para obtener los vendedores
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
+    //COnsulta para obtener todo los vendedore
+    $vendedores = Vendedor::all();
 
     //Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
@@ -68,16 +66,14 @@ require '../../includes/app.php';
         }
        // debuguear($propiedad);
 
-        //
-
-     
-        
         //Revisar que el arreglo de errores esté vacío para poder hacer el insert en base de datos
 
         if(empty($errores)){
-            //Amacenar la imagen 
-            $image->save(CARPETA_IMAGENES . $nombreImagen);
-            $resultado=$propiedad->guardar();
+            if($_FILES['propiedad']['tmp_name']['imagen']){
+                //Amacenar la imagen 
+                $image->save(CARPETA_IMAGENES . $nombreImagen);
+            }
+            $propiedad->guardar();
                
         }
     }
