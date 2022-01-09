@@ -3,11 +3,14 @@
     require '../includes/app.php';//aqui solo se usa ../ porque de esa manera apunda hacia el directorio correcto
 
     use App\Propiedad;
+    use App\Vendedor;
     
     estaAutenticado();
 
     //Implementar un metodo para obtener todas las propiedades utilizando active record
     $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
+    debuguear($propiedades);
 
 
     //?? null-> si no encuentra un _GET con el valor de resultado le asigna un null
