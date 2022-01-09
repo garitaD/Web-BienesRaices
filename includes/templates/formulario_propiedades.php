@@ -35,6 +35,23 @@
 
 <fieldset>
     <legend>Vendedor</legend>
+    <label for="vendedor">Vendedor</label>
+    <select name="propiedad[idVendedor]" id="vendedor">
+        <option selected value="">--Seleccione--</option>
+        <?php foreach($vendedores as $vendedor):?>
+            <option
+             
+                <?php echo $propiedad->idVendedor === $vendedor->id ? 'selected' : '';?>
+                value="<?php echo sanitizar($vendedor->idVendedor);?>">
+                <?php echo sanitizar($vendedor->nombre . " " . sanitizar($vendedor->apellido));?>
+                <!-- $propiedad es una instancia del objeto que se crea en crear.php -->
+
+            </option>
+        <?php endforeach?>
+    </select>
+
+    
+    
 
     <!-- <select name="idVendedor">
         <option value="">--Seleccione--</option>

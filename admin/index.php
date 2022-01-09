@@ -10,7 +10,7 @@
     //Implementar un metodo para obtener todas las propiedades utilizando active record
     $propiedades = Propiedad::all();
     $vendedores = Vendedor::all();
-    debuguear($propiedades);
+    //debuguear($vendedores);
 
 
     //?? null-> si no encuentra un _GET con el valor de resultado le asigna un null

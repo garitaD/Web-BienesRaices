@@ -3,20 +3,22 @@
     require '../../includes/app.php';
 
     use App\Propiedad; //importar la clase propiedad
+    use App\Vendedor;
     use Intervention\Image\ImageManagerStatic as Image;
     
     // debuguear($propiedad);
     estaAutenticado();
 
-   
-    $db = conexion();
 
 
     $propiedad = new Propiedad;
 
-    //COnsultar base de datos para obtener los vendedores
-    $consulta = "SELECT * FROM vendedores";
-    $resuldado = mysqli_query($db, $consulta); //se obtiene los vendedores de la base de datos
+    //COnsulta para obtener todo los vendedore
+    $vendedores = Vendedor::all();
+
+    //debuguear($vendedores);
+
+
 
     //Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
