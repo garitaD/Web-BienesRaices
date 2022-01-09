@@ -31,7 +31,7 @@ class Propiedad{
     }
 
     public function __construct($args = []){
-        $this->idPropiedades = $args['idPropiedades'] ?? '';//en caso de que no esté presente va a ser un string vacío
+        $this->idPropiedades = $args['idPropiedades'] ?? NULL;//en caso de que no esté presente va a ser un string vacío
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
         $this->imagen = $args['imagen'] ?? '';
@@ -44,13 +44,14 @@ class Propiedad{
     }
 
     public function guardar(){
-        if(isset($this->idPropiedades)){
+        if(!is_null($this->idPropiedades)){
             //Actualizar
             $this->actualizar();
 
         }else{
             //Creando un nuevo registro
             $this->crear();
+            debuguear($this->idPropiedades);
         }
 
     }
@@ -72,7 +73,15 @@ class Propiedad{
 
 
         $resultado=self::$db->query($query);
-        return $resultado;
+        if($resultado){
+            // echo "Insertado Correctamente";
+            //Redireccionar al usuario si se realiza el registro
+            header('Location: /admin?resultado=1'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
+                                                     va a tener la url (_GET['resultado'])*/
+
+             //header ->solo funciona mientras no haya nada de html previo | Usar la redireccion donde realmente sea conveniete ya que usarla en reiteradas oacciones causa problemas
+         }
+     
         //debuguear($resultado);
 
     }
@@ -103,6 +112,21 @@ class Propiedad{
          }
     }
 
+    //Eliminar un registro
+    public function eliminar(){
+        //Elimina la propiedad
+        $query = "DELETE FROM propiedades WHERE idPropiedades=" . self::$db->escape_string($this->idPropiedades) . " LIMIT 1";
+
+        $resultado = self::$db->query($query);
+
+        if($resultado){
+            $this->borrarImagen();
+            header('location: /admin?resultado=3');
+
+        }
+
+    }
+
     //Identificar y unir los atributos de la bd
     public function atributos(){
         $atributos = [];
@@ -118,7 +142,7 @@ class Propiedad{
 
 
     public function sanitizarAtributos(){//se encarga de sanitizar los datos
-       $atributos = $this->atributos();
+       $atributos = $this->atributos();//toma el obj y lo sanitiza
        $sanitizado = [];
 
        //Arreglo asociativo donde key son las llaves del arreglo y value el valor ingresado por el usuario
@@ -134,21 +158,25 @@ class Propiedad{
     public function setImagen($imagen){
 
         //Elima la imagen previa | Isset revisa si existe y que además qtenga un valor
-        if(isset($this->idPropiedades)){
-            //Comprobar si existe el archivo
-            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
-            
-            if($existeArchivo){
-                unlink(CARPETA_IMAGENES . $this->imagen);
-            }
-            //debuguear($existeArchivo);
+        if(!is_null($this->idPropiedades)){
+            $this->borrarImagen();
         }
         //Asignar al atributo de imagen el nombre de la imagen
         if($imagen){
             $this->imagen=$imagen;
         }
+    }
 
-        
+    //Elimar archivo
+    public function borrarImagen(){
+        //Comprobar si existe el archivo
+        $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            
+        if($existeArchivo){
+            unlink(CARPETA_IMAGENES . $this->imagen);
+        }
+        //debuguear($existeArchivo);
+
     }
 
     //Validacion

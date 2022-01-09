@@ -56,7 +56,7 @@
 
         if(empty($errores)){
 
-           // $propiedad->guardar();
+            //$propiedad->guardar();
 
             //Crear Carpeta
             if(!is_dir(CARPETA_IMAGENES)){
@@ -67,17 +67,10 @@
             $image->save(CARPETA_IMAGENES. $nombreImagen);
 
             //Guarda en la base de datos
-            $resultado = $propiedad->guardar();
+            $propiedad->guardar();
 
 
-            if($resuldado){
-               // echo "Insertado Correctamente";
-               //Redireccionar al usuario si se realiza el registro
-               header('Location: /admin?resultado=1'); /*esto impide que se ingresen datos duplicados | lo que está despues del ? es el mensaje que 
-                                                        va a tener la url (_GET['resultado'])*/
-
-                //header ->solo funciona mientras no haya nada de html previo | Usar la redireccion donde realmente sea conveniete ya que usarla en reiteradas oacciones causa problemas
-            }
+          
         }
 
         

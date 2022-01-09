@@ -35,15 +35,12 @@ require '../../includes/app.php';
     $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
     
   
-    
-
-
-    
-    /*$_SERVER -> Es una super globlal de php que nos permite obtener los datos del servidor,
+     /*$_SERVER -> Es una super globlal de php que nos permite obtener los datos del servidor,
     como por ejemplo el method que se está enviando, este lo evaluamos y podemos obtener los datos de manera de array*/
     /*_SERVER-> trae informacion detallada de lo que pasa en el servidor
         _POST-> tree a informacion cuando se envia una petición tipo post en el formulario 
         _FILES-> Permite ver el contenido de los archivos*/
+        
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
         //debuguear($_POST);
         //debuguear($_FILES['propiedad']);
@@ -81,11 +78,8 @@ require '../../includes/app.php';
             //Amacenar la imagen 
             $image->save(CARPETA_IMAGENES . $nombreImagen);
             $resultado=$propiedad->guardar();
-            
-            
+               
         }
-
-        
     }
 
     
