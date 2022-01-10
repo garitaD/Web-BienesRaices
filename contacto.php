@@ -1,7 +1,7 @@
 <?php 
     /* include sirve bien para templates y requiere se usa para codigo más complejo como funciones (en caso 
     de que no lo pueda cargar va a ser un error) */
-    require 'includes/funciones.php';
+    require 'includes/app.php';
     
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>

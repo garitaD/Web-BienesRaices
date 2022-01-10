@@ -5,18 +5,18 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5a06fa3ccc7df0645cb6a7aa555bae05d56cf64e',
-        'name' => 'daniel/bienesraices-php',
+        'reference' => 'eeaf5fd47adbe7faecb508a321887d622c45bf2f',
+        'name' => 'daniel/web-bienes-raices',
         'dev' => true,
     ),
     'versions' => array(
-        'daniel/bienesraices-php' => array(
+        'daniel/web-bienes-raices' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5a06fa3ccc7df0645cb6a7aa555bae05d56cf64e',
+            'reference' => 'eeaf5fd47adbe7faecb508a321887d622c45bf2f',
             'dev_requirement' => false,
         ),
         'guzzlehttp/psr7' => array(
@@ -29,12 +29,12 @@
             'dev_requirement' => false,
         ),
         'intervention/image' => array(
-            'pretty_version' => '2.7.0',
-            'version' => '2.7.0.0',
+            'pretty_version' => '2.7.1',
+            'version' => '2.7.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../intervention/image',
             'aliases' => array(),
-            'reference' => '9a8cc99d30415ec0b3f7649e1647d03a55698545',
+            'reference' => '744ebba495319501b873a4e48787759c72e3fb8c',
             'dev_requirement' => false,
         ),
         'psr/http-factory' => array(

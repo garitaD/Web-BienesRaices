@@ -1,5 +1,6 @@
 <?php
-require 'includes/config/database.php';
+//Incluye el header
+require 'includes/app.php';
 $db = conexion();
 
 $errores = [];
@@ -57,8 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //el codigo se ejecuta una vez se e
     // echo "</pre>";
 }
 
-//Incluye el header
-require 'includes/funciones.php';
+
 incluirTemplate('header'); // se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
 

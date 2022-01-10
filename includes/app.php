@@ -1,5 +1,15 @@
 <?php
+require 'funciones.php';//funciones viene a ser el arch principal que manda a llamar funciones y clases
+require 'config/database.php';
+require __DIR__ . '/../vendor/autoload.php' ;
 
-//con __DIR__ se le permite a php definir dónde se encuetran los archivos (ruta)
-define('TEMPLATES_URL', __DIR__ . '\templates');
-define('FUNCIONES_URL', 'funciones.php');
+use App\ActiveRecord;
+Intervention\Image\ImageServiceProvider::class;
+
+//Conectarnos a la base de datos
+$db = conexion();
+
+ActiveRecord ::setDB($db); //De esta manera todos los objs de la clase Propiedad van a tener la referencia a la base de datos
+
+
+?>

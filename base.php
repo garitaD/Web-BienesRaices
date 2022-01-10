@@ -1,5 +1,5 @@
 <?php 
-    require 'includes/funciones.php';
+    require 'includes/app.php';
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
 

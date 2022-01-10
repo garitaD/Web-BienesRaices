@@ -1,7 +1,8 @@
 <?php 
     /* include sirve bien para templates y requiere se usa para codigo más complejo como funciones (en caso 
     de que no lo pueda cargar va a ser un error) */
-    require 'includes/funciones.php';
+    require 'includes/app.php';
+    //si da un error relacionado a la clase puede que sea la version, en ese caso aplicar el comando composer dumpautoload 
     
     incluirTemplate('header', $inicio = true);// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>
@@ -46,7 +47,6 @@
         <h2>Casas y Departamentos en Venta</h2>
 
         <?php 
-            $limite = 3;//esta variable se pasa al include y determina la cantidad de anuncios que se muestran en la pagina
             include 'includes/templates/anuncios.php'
         ?>
 
