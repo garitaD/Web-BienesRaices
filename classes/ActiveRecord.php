@@ -187,13 +187,21 @@ class ActiveRecord{
     public static function all(){
         //self hace referencia a la propia clase, mientras que static hereda el metodo y busca el atributo dentro clase que se esté heredando y de esta manera sobreescribe
 
-        $query ="SELECT * FROM " .static::$tabla;
+        $query ="SELECT * FROM " .static::$tabla; 
 
        //debuguear($query);
         $resultado = self::consultarSQL($query);
        // debuguear($resultado->fetch_assoc());
 
        return $resultado;
+    }
+
+    //Listar n cantidad de registros
+    public static function get($cantidad){
+        //self hace referencia a la propia clase, mientras que static hereda el metodo y busca el atributo dentro clase que se esté heredando y de esta manera sobreescribe
+        $query = "SELECT * FROM ".static::$tabla . " LIMIT " . $cantidad;
+        $resultado = self::consultarSQL($query);
+        return $resultado;
     }
 
     //Busca un registro por su id | static porque no se requiere una nueva instancia

@@ -47,7 +47,6 @@
         <h2>Casas y Departamentos en Venta</h2>
 
         <?php 
-            $limite = 3;//esta variable se pasa al include y determina la cantidad de anuncios que se muestran en la pagina
             include 'includes/templates/anuncios.php'
         ?>
 
