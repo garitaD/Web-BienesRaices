@@ -40,16 +40,16 @@ require '../../includes/app.php';
         _FILES-> Permite ver el contenido de los archivos*/
         
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
-        //debuguear($_POST);
         //debuguear($_FILES['propiedad']);
 
         //Asignar los atributos
         $args =$_POST['propiedad'];//esto es posible gracias a dentro del name del formulario de agregó que fuera un aray
         $propiedad->sincronizar($args);
-        //debuguear($propiedad);
+        
 
         //Validacion
         $errores = $propiedad->validar();
+        
 
         //Generar un nombre unico para que las imagenes no se sobreescriban
         $nombreImagen = md5( uniqid( rand(), true) ).".jpg";

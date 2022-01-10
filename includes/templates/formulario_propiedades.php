@@ -38,16 +38,16 @@
     <label for="vendedor">Vendedor</label>
     <select name="propiedad[idVendedor]" id="vendedor">
         <option selected value="">--Seleccione--</option>
+        
         <?php foreach($vendedores as $vendedor):?>
             <option
-             
-                <?php echo $propiedad->idVendedor === $vendedor->idVendedor ? 'selected' : '';?>
-                value="<?php echo sanitizar($vendedor->idVendedor);?>">
+                <?php echo $propiedad->idVendedor === $vendedor->id ? 'selected' : '';?>
+                value="<?php echo sanitizar($vendedor->id);?>">
                 <?php echo sanitizar($vendedor->nombre . " " . sanitizar($vendedor->apellido));?>
-                <!-- $propiedad es una instancia del objeto que se crea en crear.php -->
-
             </option>
+            
         <?php endforeach?>
+        <!-- $propiedad es una instancia del objeto que se crea en crear.php -->
     </select>
 
     

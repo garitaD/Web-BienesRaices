@@ -9,16 +9,14 @@
     // debuguear($propiedad);
     estaAutenticado();
 
-
-
+    // Crear el objeto
     $propiedad = new Propiedad;
+    //debuguear($propiedad);
 
     //COnsulta para obtener todo los vendedore
     $vendedores = Vendedor::all();
 
     //debuguear($vendedores);
-
-
 
     //Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();//arreglo dinamico en el que se irán añadiendo los mensajes de error 
@@ -33,10 +31,10 @@
     
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){ //ejecutar el codigo despues que el usuario envie el formulario
-        //debuguear($_POST);
+        
 
         $propiedad = new Propiedad($_POST['propiedad']); // se crea la nueva instancia de propidad -> en su constructor recibe un arreglo por lo que le podemos pasar post 
-
+        //debuguear($propiedad);
         /*SUBIDA DE ARCHIVOS*/
         //debuguear($_FILES['propiedad']);
         
@@ -69,13 +67,8 @@
             $image->save(CARPETA_IMAGENES. $nombreImagen);
 
             //Guarda en la base de datos
-            $propiedad->guardar();
-
-
-          
-        }
-
-        
+            $propiedad->guardar();          
+        }    
     }
     incluirTemplate('header');// se llama a la funcion que agrega el template con el nombre del template como parametro
 ?>

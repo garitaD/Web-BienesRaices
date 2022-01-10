@@ -29,14 +29,16 @@ class ActiveRecord{
     
 
     public function guardar(){
-        if(!is_null($this->idPropiedades)){
+       // debuguear($this);
+        if((!is_null($this->id)) ){
             //Actualizar
             $this->actualizar();
 
         }else{
             //Creando un nuevo registro
+            //debuguear($this);
             $this->crear();
-            debuguear($this->idPropiedades);
+            
         }
 
     }
@@ -83,8 +85,9 @@ class ActiveRecord{
         //debuguear(join(', ',$valores));
         $query = "UPDATE " . static::$tabla . " SET ";
         $query .= join(', ',$valores);
-        $query .= " WHERE IDPROPIEDADES = '" . self::$db->escape_string($this->idPropiedades). "' "; 
+        $query .= " WHERE id = '" . self::$db->escape_string($this->id). "' "; 
         $query .= "LIMIT 1";
+        //debuguear($query);
 
         //debuguear($query);
         $resultado = self::$db->query($query);
@@ -100,7 +103,9 @@ class ActiveRecord{
     //Eliminar un registro
     public function eliminar(){
         //Elimina la propiedad
-        $query = "DELETE FROM " . static::$tabla . " WHERE idPropiedades=" . self::$db->escape_string($this->idPropiedades) . " LIMIT 1";
+            $query = "DELETE FROM " . static::$tabla . " WHERE id=" . self::$db->escape_string($this->id) . " LIMIT 1";
+
+        //debuguear($query);
 
         $resultado = self::$db->query($query);
 
@@ -116,7 +121,7 @@ class ActiveRecord{
     public function atributos(){
         $atributos = [];
         foreach(static::$columasDB as $columna){
-            if($columna === 'idPropiedades') continue; //lo que hace el continue es que cuando se cumpla la condicion lo ignora y pasa al siguiente elemento
+            if($columna === 'id') continue; //lo que hace el continue es que cuando se cumpla la condicion lo ignora y pasa al siguiente elemento
 
             $atributos[$columna] = $this->$columna;
             //se crea un nuevo arreglo con los atributos y datos del obj y se unen | con el this se hace referencia al dato que esté en memoria por ej: $atributos['titulo']=$this->titulo
@@ -141,9 +146,10 @@ class ActiveRecord{
 
     //Subida de archivos
     public function setImagen($imagen){
+       // debuguear($this);
 
         //Elima la imagen previa | Isset revisa si existe y que además qtenga un valor
-        if(!is_null($this->idPropiedades)){
+        if(!is_null($this->id)){
             $this->borrarImagen();
         }
         //Asignar al atributo de imagen el nombre de la imagen
@@ -193,7 +199,9 @@ class ActiveRecord{
     //Busca un registro por su id | static porque no se requiere una nueva instancia
     public static function find($id){
         //Consulta para traer los datos de la propiedad
-        $query = "SELECT * FROM " . static::$tabla . " WHERE idPropiedades= ${id}";
+            $query = "SELECT * FROM " . static::$tabla . " WHERE id = ${id}";
+        
+        //debuguear($query);
         $resultado= self::consultarSQL($query);
         //debuguear(array_shift($resultado));
         return array_shift($resultado);//array_shift nos devuelve la primera posicion de un arreglo
@@ -202,10 +210,11 @@ class ActiveRecord{
     public static function consultarSQL($query){
         //Constultar la base de datos
         $resultado = self::$db->query($query);
+        //debuguear($query);
 
         //Iterar los resultados
         $array = [];
-        while($registro = $resultado ->fetch_assoc()){
+        while($registro = $resultado ->fetch_assoc()){ 
             $array[] = static::crearObjeto($registro);//se crea un arreglo de objetos
         }
         //debuguear($array);
